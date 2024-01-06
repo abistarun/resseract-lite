@@ -1,0 +1,23 @@
+<settings>
+    <profiles>
+        <profile>
+            <id>Resseract</id>
+            <repositories>
+                <repository>
+                    <id>mvnrepository</id>
+                    <name>mvn repository</name>
+                    <url>http://www.mvnrepository.com</url>
+                </repository>
+                <repository>
+                    <id>Apache Maven Repository</id>
+                    <name>Apache Maven Repository</name>
+                    <url>http://repo.maven.apache.org/maven2/</url>
+                </repository>
+            </repositories>
+        </profile>
+    </profiles>
+
+    <activeProfiles>
+        <activeProfile>Resseract</activeProfile>
+    </activeProfiles>
+</settings>
