@@ -1,0 +1,22 @@
+<h1 mat-dialog-title>Please select analysis to export</h1>
+<form>
+  <div mat-dialog-content>
+    <div *ngIf="errorMessage.length > 0">
+      <mat-error>{{errorMessage}}</mat-error>
+      <br />
+    </div>
+    <mat-grid-list cols="2" rowHeight="35px">
+      <mat-grid-tile *ngFor="let spec of specifications">
+        <div id="analysisSelector">
+          <mat-checkbox [(ngModel)]="spec[1]" [ngModelOptions]="{standalone: true}">
+            {{spec[0].dataKey.key}} - {{spec[0].analysisType}}
+          </mat-checkbox>
+        </div>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button (click)="exportAnalysis()">Export</button>
+    <button mat-button mat-dialog-close>Cancel</button>
+  </div>
+</form>

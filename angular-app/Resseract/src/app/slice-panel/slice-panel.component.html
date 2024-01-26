@@ -1,0 +1,63 @@
+<div *ngIf="!loadedStatus">
+  <app-progress-indicator></app-progress-indicator>
+</div>
+<div *ngIf="error" class="errorMessage">
+  <mat-icon class="statusIconError">clear</mat-icon>
+  <div style="text-align: center">
+    Error occured while processing request
+    <br />{{error}}
+  </div>
+</div>
+
+<div id="menu">
+  <mat-menu #appMenu="matMenu">
+    <mat-slide-toggle style="padding:10px" (click)="toggleAllowNumericalRange($event)" [(ngModel)]="allowNumericalRange">
+      Allow numerical range
+    </mat-slide-toggle>
+    <mat-slide-toggle style="padding:10px" (click)="toggleMultiCategory($event)" [(ngModel)]="allowMultiCategory">
+      Allow multi-category
+    </mat-slide-toggle>
+    <mat-slide-toggle style="padding:10px" [(ngModel)]="showColumnSelectors">Show Selector</mat-slide-toggle>
+    <button mat-menu-item (click)="refetch()">Refetch</button>
+    <button mat-menu-item (click)="configureAnalysis()">Configure Analysis</button>
+  </mat-menu>
+  <button mat-icon-button class="material-icons" [matMenuTriggerFor]="appMenu">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+</div>
+
+<div *ngIf="loadedStatus && !error" style="width:98%">
+  <mat-nav-list>
+    <div *ngFor="let selector of selectors" class="selector">
+      <div *ngIf="showColumnSelectors">
+        <app-selector-wrapper class="selector" [placeholder]="'Select Data Key'" [keys]="dataKeys" [defaultValue]="selector.selectedDataKey"
+          [onSelectCallback]="onDataKeySelect(selector)">
+        </app-selector-wrapper>
+        <app-selector-wrapper *ngIf="selector.columns.length>0" class="selector" [placeholder]="'Select Slice Column'" [defaultValue]="selector.selectedColumn"
+          [keys]="selector.columns" [onSelectCallback]="onColumnSelect(selector)">
+        </app-selector-wrapper>
+      </div>
+      <div class="selector-data">
+        <div *ngIf="selector.dataType=='NUMERICAL'" style="margin-top: 32px">
+          <nouislider *ngIf="allowNumericalRange" [connect]="true" [step]="1" [min]="selector.data.min" [max]="selector.data.max"
+            [(ngModel)]="selector.data.selectedRange" [tooltips]="true" (end)="onRangeChange()">
+          </nouislider>
+          <nouislider *ngIf="!allowNumericalRange" [connect]="false" [step]="1" [min]="selector.data.min" [max]="selector.data.max"
+            [(ngModel)]="selector.data.selectedValue" [tooltips]="true" (end)="onRangeChange()">
+          </nouislider>
+        </div>
+        <div *ngIf="selector.dataType=='CATEGORICAL'" style="display: flex; flex-wrap: wrap;">
+          <mat-card appearance="outlined" matRipple *ngFor="let value of selector.data.uniqueValues" class="categoricalCard"
+            [ngClass]="{'selectedCard': value.selected}" (click)="selectCard(selector, value)">
+            {{value.name}}</mat-card>
+        </div>
+      </div>
+      <mat-divider></mat-divider>
+    </div>
+    <div *ngIf="showColumnSelectors" style="text-align: center">
+      <button mat-icon-button (click)="addSelector()">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+  </mat-nav-list>
+</div>

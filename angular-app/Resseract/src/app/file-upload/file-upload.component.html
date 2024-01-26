@@ -1,0 +1,3 @@
+<app-progress-indicator *ngIf="!isLoaded" class="fillParent"></app-progress-indicator>
+<button mat-button *ngIf="isLoaded" class="fillParent" onclick="document.getElementById('fileInput').click()">{{label}}</button>
+<input hidden id="fileInput" type="file" (change)="selectFile($event)">

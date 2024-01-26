@@ -1,0 +1,17 @@
+<h1 mat-dialog-title>Tab Options</h1>
+<div cdkDropList (cdkDropListDropped)="drop($event)">
+  <div cdkDrag *ngFor="let tab of tabs; index as i">
+    <mat-form-field class="selector">
+      <input matInput [(ngModel)]="tab.name" class="selector">
+    </mat-form-field>
+    <button *ngIf="tabs.length>1" mat-icon-button class="material-icons" (click)="delete(i)">
+      <mat-icon>close</mat-icon>
+    </button>
+    <button *ngIf="tabs.length>1" cdkDragHandle mat-icon-button>
+      <mat-icon>notes</mat-icon>
+    </button>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="close()">Close</button>
+</div>

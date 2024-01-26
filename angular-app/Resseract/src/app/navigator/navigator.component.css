@@ -1,0 +1,86 @@
+.scene {
+    height: 3.5vw;
+}
+
+.box {
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: all 0.3s ease-out;
+    transform-origin: 0 0;
+}
+
+.scene:hover .box {
+    transform: rotateY(-90deg);
+    cursor: pointer;
+}
+
+.face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transform-origin: 0 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.front {
+    transform: rotateY(0deg);
+    background-color: #555;
+    color: #ffffff;
+}
+
+.right {
+    transform: rotateY(90deg);
+    left: 3.5vw;
+    background-color: #fff;
+    color: #555;
+    font-size: 0.8rem;
+}
+
+.spacer {
+    display: block;
+    margin: 4px 0;
+    content: " ";
+}
+
+.category {
+    background-color: #fff;
+    color: #000;
+    text-align: center;
+    font-family: Verdana;
+    font-size: 12px;
+    margin: 3px 0;
+    cursor: pointer;
+    user-select: none;
+}
+
+.downArrow {
+    border: solid black;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+    transform: rotate(45deg);
+}
+
+.active {
+    background-color: #fff;
+    color: #555;
+}
+
+.icon {
+    font-size: 1.5vw;
+    height: 1.5vw;
+    width: 1.5vw;
+}
+
+::-webkit-scrollbar{
+    width: 5px;
+    background-color:black;
+    box-shadow: inset;
+}
+
+::-webkit-scrollbar-thumb{
+    background-color: grey;
+}

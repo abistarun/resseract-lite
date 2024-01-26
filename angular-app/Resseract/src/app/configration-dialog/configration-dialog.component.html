@@ -1,0 +1,29 @@
+<h1 mat-dialog-title>Configure Analysis</h1>
+
+<div mat-dialog-content>
+  <app-progress-indicator *ngIf="!isLoaded"></app-progress-indicator>
+  <mat-grid-list  *ngIf="isLoaded" cols="4" rowHeight="120px">
+    <mat-grid-tile [rowspan]="3">
+      <mat-nav-list class="fillParent">
+        <div *ngFor="let analysisSpecification of analysisSpecifications">
+          <mat-list-item (click)="onSelectAnalysis(analysisSpecification)">
+            <h3 mat-line>{{analysisSpecification.dataKey.key}}</h3>
+            <p mat-line>{{analysisSpecification.analysisType}}</p>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+        </div>
+      </mat-nav-list>
+    </mat-grid-tile>
+    <mat-grid-tile [rowspan]="3" [colspan]="3">
+      <div *ngIf="selectedAnalysisConfigKeys" class="fillParent">
+        <app-configration-property-editor #propertyEditor style="padding: 6px 20px 0px 20px;  overflow: auto;"
+          [configKeys]="selectedAnalysisConfigKeys" class="fillParent">
+        </app-configration-property-editor>
+      </div>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button (click)="saveConfigs()">Save</button>
+  <button mat-button mat-dialog-close>Cancel</button>
+</div>

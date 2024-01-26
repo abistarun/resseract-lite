@@ -1,0 +1,17 @@
+#dashboard {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 3.5vw;
+    right: 0;
+}
+
+#navigator {
+    height: 100%;
+    width: 3.5vw;
+    top: 0 !important;
+    bottom: 0 !important;
+    position: fixed !important;
+    z-index: 10;
+    overflow: hidden;
+}

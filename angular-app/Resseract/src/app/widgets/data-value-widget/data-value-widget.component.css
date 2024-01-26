@@ -1,0 +1,54 @@
+#dataValueElement {
+    font-family: "Lucida Grande", "Lucida Sans Unicode", Arial, Helvetica, sans-serif;
+    text-align: center;
+    font-weight: bold;
+    padding: 20px 0 20px 0;
+    line-height: 130%;
+    letter-spacing: 15px;
+    color: #333333;
+    width: 100%;
+}
+
+.title {
+    font-family: "Lucida Grande", "Lucida Sans Unicode", Arial, Helvetica, sans-serif;
+    color: #333333;
+    font-size: 18px;
+    fill: #333333;
+    text-align: center;
+    line-height: normal;
+    margin: 10px;
+}
+
+.fillParent {
+    height: 100%;
+    width: 100%;
+    display: block;
+}
+
+#menu {
+    top: 0px !important;
+    right: 5px !important;
+    bottom: auto !important;
+    left: auto !important;
+    position: absolute !important;
+    z-index: 10;
+}
+
+
+.errorMessage {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.statusIconError {
+    fill: red;
+    color: red;
+    width: 100%;
+    height: 60px;
+    font-size: 50px;
+    text-align: center;
+}

@@ -1,0 +1,57 @@
+<div class="fillParent">
+  <div>
+    <button id="refreshButton" mat-icon-button matTooltip="Refresh Tab" class="material-icons"
+      (click)="refreshDashboard()">
+      <mat-icon>cached</mat-icon>
+    </button>
+    <button id="addButton" mat-icon-button matTooltip="Add Tab" class="material-icons" (click)="addTab()">
+      <mat-icon>add</mat-icon>
+    </button>
+    <button id="editButton" mat-icon-button matTooltip="Rename Tabs" class="material-icons" (click)="editTabs()">
+      <mat-icon>edit</mat-icon>
+    </button>
+  </div>
+  <mat-tab-group [selectedIndex]="selectedTabIndex" (selectedIndexChange)="onTabSelect($event)" class="fillParent">
+    <mat-tab *ngFor="let tab of tabs" class="fillParent">
+      <ng-template mat-tab-label>
+        <div style="color: #ffffff">{{tab.name}}</div>
+      </ng-template>
+
+      <div *ngIf="!tab.isLoaded" class="fillParent">
+        <div class="headingContainer" style="z-index: 2;">
+          <div class="heading">Data is Power</div>
+        </div>
+      </div>
+
+      <gridster class="analysisDisplayGrid" [options]="tab.options">
+        <gridster-item [item]="item" *ngFor="let item of tab.widgets">
+          <button mat-icon-button id="dragger" color="warn" class="drag-handler">
+            <mat-icon>notes</mat-icon>
+          </button>
+          <app-basic-chart-widget *ngIf="item.widgetType === WidgetType.BASIC_CHART" [widgetSpecification]=item>
+          </app-basic-chart-widget>
+          <app-pie-chart-widget *ngIf="item.widgetType === WidgetType.PIE_CHART" [widgetSpecification]=item>
+          </app-pie-chart-widget>
+          <app-slice-widget *ngIf="item.widgetType === WidgetType.SLICE" [widgetSpecification]=item class="fillParent">
+          </app-slice-widget>
+          <app-data-value-widget *ngIf="item.widgetType === WidgetType.DATA_VALUE" [widgetSpecification]=item
+            class="fillParent">
+          </app-data-value-widget>
+          <app-dial-widget *ngIf="item.widgetType === WidgetType.DIAL" [widgetSpecification]=item class="fillParent">
+          </app-dial-widget>
+          <app-image-widget *ngIf="item.widgetType === WidgetType.IMAGE" [widgetSpecification]=item class="fillParent">
+          </app-image-widget>
+          <app-data-table-widget *ngIf="item.widgetType === WidgetType.DATA_TABLE" [widgetSpecification]=item
+            class="fillParent">
+          </app-data-table-widget>
+          <app-geo-map-widget *ngIf="item.widgetType === WidgetType.GEO_MAP" [widgetSpecification]=item
+            class="fillParent">
+          </app-geo-map-widget>
+          <app-static-text-widget *ngIf="item.widgetType === WidgetType.STATIC_TEXT" [widgetSpecification]=item
+            class="fillParent">
+          </app-static-text-widget>
+        </gridster-item>
+      </gridster>
+    </mat-tab>
+  </mat-tab-group>
+</div>

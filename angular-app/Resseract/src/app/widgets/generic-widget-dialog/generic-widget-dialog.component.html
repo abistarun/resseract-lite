@@ -1,0 +1,53 @@
+<h1 mat-dialog-title *ngIf="loadedStatus">Please fill in following details</h1>
+<div *ngIf="!loadedStatus">
+  <app-progress-indicator></app-progress-indicator>
+</div>
+
+<div *ngIf="loadedStatus">
+  <div mat-dialog-content>
+    <div *ngIf="errorMessage.length > 0">
+      <mat-error>{{errorMessage}}</mat-error>
+      <br />
+    </div>
+    <div>
+      <app-selector-wrapper *ngIf="config.dataKey" class="selector" [placeholder]="'Select Data Key'" [keys]="datakeys"
+        [onSelectCallback]="onDataKeySelect">
+      </app-selector-wrapper>
+      <app-selector-wrapper *ngIf="config.mapType  && selectedDataKey" class="selector"
+        [placeholder]="'Select Map Type'" [keys]="allMapTypes" [onSelectCallback]="onMapTypeSelect">
+      </app-selector-wrapper>
+      <app-selector-wrapper *ngIf="config.xAxis && selectedDataKey" class="selector"
+        [placeholder]="'Select Group By Axis (X)'"
+        [keys]="categoricalColumns.concat(numericalColumns).concat(dateColumns)" [onSelectCallback]="onXAxisSelect">
+      </app-selector-wrapper>
+
+      <div *ngIf="selectedDataKey && config.columnOrExpression">
+        <app-selector-wrapper class="selector" [placeholder]="'Value Column Name'" [keys]="columnOrExpressionColumns"
+          [onSelectCallback]="onColumnSelect" *ngIf="!expression" [allowMultiple]="config.multipleYAxis">
+        </app-selector-wrapper>
+        <mat-form-field class="selector" *ngIf="!selectedColumn" style="padding: 0">
+          <input matInput placeholder="Expression" [(ngModel)]="expression" class="selector" style="padding: 0">
+        </mat-form-field>
+      </div>
+
+      <div *ngIf="config.range">
+        <mat-form-field class="selector" style="padding: 0; width: 50%">
+          <input matInput type="number" placeholder="Minimum Range" [(ngModel)]="minRange" class="selector"
+            style="padding: 0;">
+        </mat-form-field>
+        <mat-form-field class="selector" style="padding: 0; width: 50%">
+          <input matInput type="number" placeholder="Maximum Range" [(ngModel)]="maxRange" class="selector"
+            style="padding: 0">
+        </mat-form-field>
+      </div>
+
+      <app-selector-wrapper *ngIf="config.imageColumn && categoricalColumns.length>0" class="selector"
+        [placeholder]="'Select Image Column'" [keys]="categoricalColumns" [onSelectCallback]="onImageColumnSelect">
+      </app-selector-wrapper>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button (click)="addAnalysis()">Add</button>
+    <button mat-button mat-dialog-close>Cancel</button>
+  </div>
+</div>

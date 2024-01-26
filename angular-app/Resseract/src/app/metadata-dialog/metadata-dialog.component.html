@@ -1,0 +1,45 @@
+<h1 mat-dialog-title>Analysis Metadata</h1>
+
+<div mat-dialog-content>
+  <mat-grid-list cols="4" rowHeight="120px">
+    <mat-grid-tile [rowspan]="3">
+      <mat-nav-list class="fillParent" style="overflow-y:auto">
+        <div *ngFor="let curr of analysisMetadata">
+          <div *ngFor="let ele of curr.elements.elements">
+            <mat-list-item (click)="onSelectMetadata(ele)">
+              <h3 mat-line>{{curr.dataKey.key}}</h3>
+              <h4 mat-line>({{curr.analysisType}})</h4>
+              <p mat-line>{{ele.key}}</p>
+            </mat-list-item>
+          </div>
+          <mat-divider></mat-divider>
+        </div>
+      </mat-nav-list>
+    </mat-grid-tile>
+    <mat-grid-tile [rowspan]="3" [colspan]="3">
+      <div *ngIf="selectedElement" class="fillParent">
+        <div style="padding: 6px 20px 0px 20px;  overflow: auto;" class="fillParent">
+          <div *ngIf='selectedElement.type == "VALUE"'>
+            <app-dial-chart [rangeStart]=selectedElement.rangeStart [rangeEnd]=selectedElement.rangeEnd
+              [value]=selectedElement.value [higherBetter]=selectedElement.higherBetter [title]=selectedElement.key>
+            </app-dial-chart>
+          </div>
+          <div *ngIf='selectedElement.type == "CHART"'>
+            <app-basic-chart [chartType]=selectedElement.chartType [description]=selectedElement.description
+              [title]=selectedElement.key [xAxisData]=selectedElement.xAxisData [xAxisLabel]=selectedElement.xAxisLabel
+              [yAxisLabel]=selectedElement.yAxisLabel [yAxisData]=selectedElement.yAxisData>
+            </app-basic-chart>
+          </div>
+          <div *ngIf='selectedElement.type == "TABLE"'>
+            <app-data-table [description]=selectedElement.description [title]=selectedElement.key
+              [data]="selectedElement.data" [headers]="selectedElement.headers">
+            </app-data-table>
+          </div>
+        </div>
+      </div>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Close</button>
+</div>

@@ -1,0 +1,15 @@
+.fillParent {
+    height: 100%;
+    width: 100%;
+    display: block;
+}
+
+.fillWidth {
+    width: 100%;
+    display: block;
+}
+
+mat-grid-tile {
+    border-bottom: 1px dashed #ddd;
+    overflow: visible;
+}

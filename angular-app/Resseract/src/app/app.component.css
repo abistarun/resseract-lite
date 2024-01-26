@@ -1,0 +1,17 @@
+#app {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #000000;
+}
+
+.mobileDisplay {
+    color: white;
+    text-align: center;
+    font-size: 2em;
+    display: flex;
+    align-items: center;
+    height: 100%;
+}

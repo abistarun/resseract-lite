@@ -1,0 +1,22 @@
+<h1 mat-dialog-title>Please select targets</h1>
+<form>
+  <div mat-dialog-content>
+    <div *ngIf="errorMessage.length > 0">
+      <mat-error>{{errorMessage}}</mat-error>
+      <br />
+    </div>
+    <mat-grid-list cols="2" rowHeight="35px">
+      <mat-grid-tile *ngFor="let target of targets">
+        <div id="targetSelector">
+          <mat-checkbox [(ngModel)]="target[1]" [ngModelOptions]="{standalone: true}">
+            {{targetLabels[target[0]]}}
+          </mat-checkbox>
+        </div>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button (click)="done()">Done</button>
+    <button mat-button mat-dialog-close>Cancel</button>
+  </div>
+</form>

@@ -1,0 +1,57 @@
+<mat-grid-list cols="4" class="fillParent" rowHeight="35px" style="max-height: 400px; overflow: scroll;">
+  <div *ngIf="configKeys!=null">
+    <div *ngFor="let config of configKeys">
+      <div *ngIf='config.valueType != "HIDDEN"'>
+        <mat-grid-tile class="fillParent">
+          <p style='font-family: Roboto,"Helvetica Neue",sans-serif;'>{{config.name}}</p>
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="2" class="fillWidth">
+          <mat-form-field *ngIf='config.valueType == "NUMBER"' class="fillWidth">
+            <input type="number" matInput [disabled]="config.useDefaultValue" [(ngModel)]="config.currValue"
+              class="fillParent">
+          </mat-form-field>
+
+          <mat-form-field *ngIf='config.valueType == "DOUBLE"' class="fillWidth">
+            <input type="number" step="any" matInput [disabled]="config.useDefaultValue" [(ngModel)]="config.currValue"
+              class="fillParent">
+          </mat-form-field>
+
+          <app-selector-wrapper *ngIf='config.valueType == "LIST" && config.allowMultiple' class="fillWidth"
+            [placeholder]="'Select Value'" [keys]="config.possibleValues" [defaultValue]="config.currValue"
+            [allowMultiple]="true" [onSelectCallback]="update(config)">
+          </app-selector-wrapper>
+
+          <app-selector-wrapper *ngIf='config.valueType == "MULTI_SELECT_LIST"' class="fillWidth"
+            [placeholder]="'Select Value'" [keys]="config.possibleValues" [defaultValue]="config.currValue"
+            [allowMultiple]="true" [onSelectCallback]="update(config)">
+          </app-selector-wrapper>
+
+          <mat-form-field *ngIf='config.valueType == "LIST" && !config.allowMultiple' class="fillWidth">
+            <mat-select [disabled]="config.useDefaultValue" class="fillParent" [(ngModel)]="config.currValue">
+              <mat-option *ngFor="let val of config.possibleValues" [value]="val">
+                {{val}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field *ngIf='config.valueType == "STRING"' class="fillWidth">
+            <input matInput [disabled]="config.useDefaultValue" [(ngModel)]="config.currValue" class="fillParent">
+          </mat-form-field>
+
+          <mat-form-field *ngIf='config.valueType == "PASSWORD"' class="fillWidth">
+            <input matInput type="password" [disabled]="config.useDefaultValue" [(ngModel)]="config.currValue"
+              class="fillParent">
+          </mat-form-field>
+
+          <div *ngIf='config.valueType == "FILE"' class="fillWidth">
+            <app-file-upload [configKey]="config"></app-file-upload>
+          </div>
+        </mat-grid-tile>
+        <mat-grid-tile class="fillParent">
+          <mat-checkbox *ngIf='config.defaultValue != null' [(ngModel)]="config.useDefaultValue">Use Default
+          </mat-checkbox>
+        </mat-grid-tile>
+      </div>
+    </div>
+  </div>
+</mat-grid-list>

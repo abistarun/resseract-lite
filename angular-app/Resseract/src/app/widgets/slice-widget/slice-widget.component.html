@@ -1,0 +1,25 @@
+<div class="title">
+    {{customOptions['title'].value}}
+</div>
+
+<div id="menu">
+    <mat-menu #appMenu="matMenu">
+        <button mat-menu-item (click)="deleteWidget()">Delete Widget</button>
+        <button mat-menu-item (click)="openChartOptions()">Chart Options</button>
+        <button mat-menu-item (click)="selectTargets()">Select Targets</button>
+    </mat-menu>
+    <button mat-icon-button class="material-icons" [matMenuTriggerFor]="appMenu">
+        <mat-icon>more_vert</mat-icon>
+    </button>
+</div>
+
+<div *ngIf="slicePanel.showColumnSelectors">
+    <mat-slide-toggle color="warn" class="applyToggle" style="float: right; margin: 6px 50px 6px 30px"
+        (click)="autoApplyClick()" [(ngModel)]="autoApply">Auto Apply
+    </mat-slide-toggle>
+    <button mat-flat-button *ngIf="!autoApply" color="warn" style="float: right;" (click)="applySlice()">Apply</button>
+</div>
+<app-slice-panel class="fillParent" #slicePanel></app-slice-panel>
+<div class="applyFooter">
+
+</div>

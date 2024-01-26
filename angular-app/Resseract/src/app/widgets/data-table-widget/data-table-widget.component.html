@@ -1,0 +1,46 @@
+<div class="fillParent" id={{widgetSpecification.widgetId}}>
+    <div *ngIf="!loadedStatus" class="fillParent">
+        <app-progress-indicator class="fillParent"></app-progress-indicator>
+    </div>
+    
+    <div *ngIf="errorMessage" class="errorMessage">
+        <mat-icon class="statusIconError">clear</mat-icon>
+        <div style="text-align: center">
+            Error occured while processing request
+            <br />{{errorMessage}}
+        </div>
+    </div>
+
+    <div class="title">
+        {{customOptions['title'].value}}
+    </div>
+
+    <mat-table [dataSource]="data" class="mat-elevation-z8" class="table">
+
+        <ng-container *ngFor="let header of headers; let i = index" matColumnDef="{{header}}">
+            <mat-header-cell style="text-align: center" *matHeaderCellDef> {{header}} </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row[i]}} </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="headers"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: headers;"></mat-row>
+    </mat-table>
+
+    <div *ngIf="!isFullscreen" id="menu">
+        <button mat-icon-button (click)="enableFullScreen()">
+            <mat-icon>fullscreen</mat-icon>
+        </button>    
+        <mat-menu #appMenu="matMenu">
+            <button mat-menu-item (click)="refetch()">Refetch</button>
+            <button mat-menu-item *ngIf="!errorMessage" (click)="configureAnalysis()">Configure Analysis</button>
+            <button mat-menu-item *ngIf="!errorMessage" (click)="exportAsCSV()">Export as CSV</button>
+            <button mat-menu-item *ngIf="!errorMessage" (click)="openChartOptions()">Chart Options</button>
+            <button mat-menu-item *ngIf="!errorMessage" (click)="enableFullScreen()">Full Screen</button>
+            <button mat-menu-item (click)="deleteWidget()">Delete Widget</button>
+        </mat-menu>
+
+        <button mat-icon-button class="material-icons" [matMenuTriggerFor]="appMenu">
+            <mat-icon>more_vert</mat-icon>
+        </button>
+    </div>
+</div>

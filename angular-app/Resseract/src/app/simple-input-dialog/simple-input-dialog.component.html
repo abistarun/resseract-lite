@@ -1,0 +1,23 @@
+<h1 mat-dialog-title>{{inputData.hint}}</h1>
+
+<div mat-dialog-content>
+  <div *ngIf="errorMessage">
+    <mat-error>{{errorMessage}}</mat-error>
+    <br />
+  </div>
+  <div class="fillParent">
+    <app-selector-wrapper *ngIf="inputData.type == 'LIST'" class="fillParent" [placeholder]="inputData.hint"
+      [keys]="inputData.values" [onSelectCallback]="onValueSelect">
+    </app-selector-wrapper>
+    <mat-form-field *ngIf="inputData.type == 'TEXT'" class="fillParent">
+      <input matInput placeholder="{{inputData.hint}}" [(ngModel)]="selectedValue" class="fillParent">
+    </mat-form-field>
+    <mat-form-field *ngIf="inputData.type == 'TEXTAREA'" class="fillParent">
+      <textarea matInput placeholder="{{inputData.hint}}" [(ngModel)]="selectedValue" class="fillParent"></textarea>
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button (click)="done()">Done</button>
+    <button mat-button mat-dialog-close>Cancel</button>
+  </div>
+</div>

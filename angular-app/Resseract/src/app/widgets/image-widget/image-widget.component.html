@@ -1,0 +1,26 @@
+<div class="fillParent" id={{widgetSpecification.widgetId}}>
+  <div *ngIf="!loadedStatus" class="fillParent">
+    <app-progress-indicator class="fillParent"></app-progress-indicator>
+  </div>
+  <div *ngIf="errorMessage" class="errorMessage">
+    <mat-icon class="statusIconError">clear</mat-icon>
+    <div style="text-align: center">
+      Error occured while processing request
+      <br />{{errorMessage}}
+    </div>
+  </div>
+  <div *ngIf="!errorMessage" class="fillParent">
+    <img *ngIf="imageLink" src="{{imageLink}}" class="fillParent">
+    <div *ngIf="errorMessage" class="error">{{errorMessage}}</div>
+  </div>
+  <div id="menu">
+    <mat-menu #appMenu="matMenu">
+      <button mat-menu-item *ngIf="!errorMessage" (click)="configureAnalysis()">Configure Analysis</button>
+      <button mat-menu-item (click)="deleteWidget()">Delete Widget</button>
+    </mat-menu>
+
+    <button mat-icon-button class="material-icons" [matMenuTriggerFor]="appMenu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+  </div>
+</div>

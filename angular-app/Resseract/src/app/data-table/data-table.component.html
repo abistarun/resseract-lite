@@ -1,0 +1,12 @@
+<h3 style="width: 100%; text-align: center">{{title}}</h3>
+<h4 *ngIf="description" style="width: 100%; text-align: center">{{description}}</h4>
+<mat-table [dataSource]="data" class="mat-elevation-z8" class="fillParent">
+
+  <ng-container *ngFor="let header of headers; let i = index" matColumnDef="{{header}}">
+    <mat-header-cell style="text-align: center" *matHeaderCellDef> {{header}} </mat-header-cell>
+    <mat-cell *matCellDef="let row"> {{row[i]}} </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="headers"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: headers;"></mat-row>
+</mat-table>
