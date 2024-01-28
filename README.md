@@ -81,6 +81,7 @@ https://github.com/abistarun/resseract-lite/assets/7782937/c384e7c1-dafb-4254-b6
 * [Dashboard](https://github.com/abistarun/resseract-lite/wiki/Dashboard)
 * [Expression Language](https://github.com/abistarun/resseract-lite/wiki/Expression-Language)
 * [FAQs](https://github.com/abistarun/resseract-lite/wiki/FAQs)
+* [How to Contribute](https://github.com/abistarun/resseract-lite/wiki/How-to-Contribute)
 * [Report a Issue / Request for new feature](https://github.com/abistarun/resseract-lite/issues/new)
 
 ***

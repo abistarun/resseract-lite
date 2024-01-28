@@ -4,10 +4,19 @@ import lombok.*;
 
 @ToString
 @EqualsAndHashCode
-@AllArgsConstructor
 @NoArgsConstructor
-@Setter
-@Getter
 public class DataKey {
     private String key;
+
+    public DataKey(String key) {
+        this.key = key.trim();
+    }
+
+    public void setKey(String key) {
+        this.key = key.trim();
+    }
+
+    public String getKey() {
+        return key.trim();
+    }
 }
