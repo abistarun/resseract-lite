@@ -1,15 +1,15 @@
 package abistech.resseract.util.expression;
 
-import abistech.resseract.data.frame.Data;
-import abistech.resseract.exception.CustomErrorReports;
-import abistech.resseract.exception.ResseractException;
-import abistech.resseract.util.Constants;
 import abistech.resseract.data.frame.Column;
+import abistech.resseract.data.frame.Data;
 import abistech.resseract.data.frame.Row;
 import abistech.resseract.data.frame.impl.column.BooleanColumn;
 import abistech.resseract.data.frame.impl.column.DataType;
 import abistech.resseract.data.frame.impl.column.DoubleColumn;
 import abistech.resseract.data.frame.impl.column.StringColumn;
+import abistech.resseract.exception.CustomErrorReports;
+import abistech.resseract.exception.ResseractException;
+import abistech.resseract.util.Constants;
 
 import java.io.IOException;
 import java.io.StreamTokenizer;
@@ -18,7 +18,6 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 public class ExpressionEvaluator {
 
@@ -108,7 +107,7 @@ public class ExpressionEvaluator {
             return handleCustomFunctions(tokens, i, token);
         }
 
-        if (token.length() > 1 && data.getColumnNames().stream().map(e -> "[" + e + "]").collect(Collectors.toList()).contains(token))
+        if (token.length() > 1 && data.getColumnNames().stream().map(e -> "[" + e + "]").toList().contains(token))
             return new Variable(token, data.getColumn(token.substring(1, token.length() - 1)).getDataType());
         return new Constant(token);
     }
@@ -167,14 +166,9 @@ public class ExpressionEvaluator {
         List<String> tokBuf = new ArrayList<>();
         while (tokenizer.nextToken() != StreamTokenizer.TT_EOF) {
             switch (tokenizer.ttype) {
-                case StreamTokenizer.TT_NUMBER:
-                    tokBuf.add(String.valueOf(tokenizer.nval));
-                    break;
-                case StreamTokenizer.TT_WORD:
-                    tokBuf.add(tokenizer.sval);
-                    break;
-                default:
-                    tokBuf.add(String.valueOf((char) tokenizer.ttype));
+                case StreamTokenizer.TT_NUMBER -> tokBuf.add(String.valueOf(tokenizer.nval));
+                case StreamTokenizer.TT_WORD -> tokBuf.add(tokenizer.sval);
+                default -> tokBuf.add(String.valueOf((char) tokenizer.ttype));
             }
         }
         for (int i = 0; i < tokBuf.size(); i++) {
@@ -223,33 +217,19 @@ public class ExpressionEvaluator {
 
     private void fillColumn(DataType returnDataType, Column<?> result, Object res) {
         switch (returnDataType) {
-            case BOOLEAN:
-                ((BooleanColumn) result).add((Boolean) res);
-                break;
-            case NUMERICAL:
-                ((DoubleColumn) result).add((Double) res);
-                break;
-            case CATEGORICAL:
-                ((StringColumn) result).add((String) res);
-                break;
+            case BOOLEAN -> ((BooleanColumn) result).add((Boolean) res);
+            case NUMERICAL -> ((DoubleColumn) result).add((Double) res);
+            case CATEGORICAL -> ((StringColumn) result).add((String) res);
         }
     }
 
     private Column<?> buildColumn(DataType returnDataType, String columnName, String expression) throws ResseractException {
-        Column<?> result = null;
-        switch (returnDataType) {
-            case BOOLEAN:
-                result = new BooleanColumn(columnName, data.noOfRows());
-                break;
-            case NUMERICAL:
-                result = new DoubleColumn(columnName, data.noOfRows());
-                break;
-            case CATEGORICAL:
-                result = new StringColumn(columnName, data.noOfRows());
-                break;
-            case DATE:
-                throw new ResseractException(CustomErrorReports.EXPR_DATA_TYPE_NOT_SUPPORTED);
-        }
+        Column<?> result = switch (returnDataType) {
+            case BOOLEAN -> new BooleanColumn(columnName, data.noOfRows());
+            case NUMERICAL -> new DoubleColumn(columnName, data.noOfRows());
+            case CATEGORICAL -> new StringColumn(columnName, data.noOfRows());
+            case DATE -> throw new ResseractException(CustomErrorReports.EXPR_DATA_TYPE_NOT_SUPPORTED);
+        };
         result.addProperty(Constants.EXPRESSION, expression);
         return result;
     }

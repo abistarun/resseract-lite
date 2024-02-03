@@ -4,10 +4,7 @@ import abistech.resseract.config.Config;
 import abistech.resseract.config.ConfigKey;
 import abistech.resseract.data.frame.ColumnNames;
 import abistech.resseract.data.frame.Data;
-import abistech.resseract.step.elements.CategoricalAggregationType;
-import abistech.resseract.step.elements.Dataset;
-import abistech.resseract.step.elements.DatasetImpl;
-import abistech.resseract.step.elements.NumericalAggregationType;
+import abistech.resseract.step.elements.*;
 import abistech.resseract.util.Util;
 import abistech.resseract.data.frame.Column;
 import abistech.resseract.data.frame.Row;
@@ -58,6 +55,7 @@ public class GroupBy extends AbstractStep {
     private void fillValues(Map<Object, Map<String, List<Object>>> groupedValues, String groupByColumn, Config config, Data result, DataType indexDataType, Map<String, DataType> dataTypeMap) {
         Aggregator numericalAgg = extractNumericalAggregator(config);
         Aggregator categoricalAgg = extractCategoricalAggregator(config);
+        Aggregator dateAgg = extractDateAggregator(config);
         for (Map.Entry<Object, Map<String, List<Object>>> entry : groupedValues.entrySet()) {
             Object groupedValue = entry.getKey();
             switch (indexDataType) {
@@ -75,6 +73,9 @@ public class GroupBy extends AbstractStep {
                 } else if (dataType == DataType.CATEGORICAL) {
                     String aggregatedValue = (String) categoricalAgg.aggregate(targetEntry.getValue());
                     result.getCategoricalColumn(columnName).add(aggregatedValue);
+                } else if (dataType == DataType.DATE) {
+                    Date aggregatedValue = (Date) dateAgg.aggregate(targetEntry.getValue());
+                    result.getDateColumn(columnName).add(aggregatedValue);
                 }
             }
         }
@@ -89,6 +90,8 @@ public class GroupBy extends AbstractStep {
                 result.addNumericColumn(new DoubleColumn(targetColumn, groupedValues.size()));
             else if (targetDataTypes.get(targetColumn) == DataType.CATEGORICAL)
                 result.addCategoricalColumn(new StringColumn(targetColumn, groupedValues.size()));
+            else if (targetDataTypes.get(targetColumn) == DataType.DATE)
+                result.addDateColumn(new DateColumn(targetColumn, groupedValues.size()));
         }
         return result;
     }
@@ -112,6 +115,11 @@ public class GroupBy extends AbstractStep {
         return AggregatorFactory.getAggregator(aggregationType);
     }
 
+    private Aggregator extractDateAggregator(Config config) {
+        DateAggregationType aggregationType = DateAggregationType.valueOf((String) config.get(ConfigKey.DATE_AGGREGATION));
+        return AggregatorFactory.getAggregator(aggregationType);
+    }
+
     private Map<Object, Map<String, List<Object>>> getGroupedValues(Data data, String groupByColumn, List<String> targetColumns, DataType indexDataType, Map<String, DataType> targetDataTypes) {
         Map<Object, Map<String, List<Object>>> groupedValues = new TreeMap<>();
         for (Row row : data) {
@@ -127,6 +135,9 @@ public class GroupBy extends AbstractStep {
                 if (targetDataTypes.get(targetColumn) == DataType.NUMERICAL) {
                     targetValue = targetValue == null ? 0d : targetValue;
                 }
+                if (targetDataTypes.get(targetColumn) == DataType.DATE) {
+                    targetValue = targetValue == null ? new Date(0) : targetValue;
+                }
                 targetValues.get(targetColumn).add(targetValue);
             }
         }
@@ -135,7 +146,7 @@ public class GroupBy extends AbstractStep {
 
     @Override
     public List<ConfigKey> getRequiredConfigs() {
-        return Arrays.asList(ConfigKey.NUMERICAL_AGGREGATION, ConfigKey.CATEGORICAL_AGGREGATION, ConfigKey.GROUPBY_COLUMN_NAME, ConfigKey.TARGET_COLUMNS);
+        return Arrays.asList(ConfigKey.NUMERICAL_AGGREGATION, ConfigKey.CATEGORICAL_AGGREGATION, ConfigKey.DATE_AGGREGATION, ConfigKey.GROUPBY_COLUMN_NAME, ConfigKey.TARGET_COLUMNS);
     }
 
     private static class AggregatorFactory {
@@ -149,6 +160,13 @@ public class GroupBy extends AbstractStep {
         }
 
         static Aggregator getAggregator(CategoricalAggregationType aggregationType) {
+            return switch (aggregationType) {
+                case LAST_VALUE -> new LastValueAggregator();
+                case FIRST_VALUE -> new FirstValueAggregator();
+            };
+        }
+
+        static Aggregator getAggregator(DateAggregationType aggregationType) {
             return switch (aggregationType) {
                 case LAST_VALUE -> new LastValueAggregator();
                 case FIRST_VALUE -> new FirstValueAggregator();

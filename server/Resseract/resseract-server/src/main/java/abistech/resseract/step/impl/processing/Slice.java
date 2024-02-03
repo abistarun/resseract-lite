@@ -33,18 +33,10 @@ public class Slice extends AbstractStep {
         Data result = new DataFrame(data.getDataKey(), data.getDataProperty());
         for (Column<?> column : data.getAllColumns()) {
             switch (column.getDataType()) {
-                case DATE:
-                    result.addDateColumn(new DateColumn(column.getName()));
-                    break;
-                case NUMERICAL:
-                    result.addNumericColumn(new DoubleColumn(column.getName()));
-                    break;
-                case CATEGORICAL:
-                    result.addCategoricalColumn(new StringColumn(column.getName()));
-                    break;
-                case BOOLEAN:
-                    result.addBooleanColumn(new BooleanColumn(column.getName()));
-                    break;
+                case DATE -> result.addDateColumn(new DateColumn(column.getName()));
+                case NUMERICAL -> result.addNumericColumn(new DoubleColumn(column.getName()));
+                case CATEGORICAL -> result.addCategoricalColumn(new StringColumn(column.getName()));
+                case BOOLEAN -> result.addBooleanColumn(new BooleanColumn(column.getName()));
             }
         }
 
