@@ -21,6 +21,7 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v4
       - run: |
+          ls -lart
           git checkout -b gh-pages
           git add index.html
           git commit -m "Auto Deployment"
