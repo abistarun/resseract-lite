@@ -8,7 +8,8 @@ jobs:
       - run: npm i markdown-to-html-cli -g
       - name: Check out repository code
         uses: actions/checkout@v4
-      - run: mkdir temp_src && mv * temp_src && ls -lart
+      - run: mkdir temp_src
+      - run: mv * temp_src || ls -lart
       - run: markdown-to-html --source temp_src/README.md --output index.html
       - run: mkdir temp && mv index.html temp/index.html && ls -lart
       - run: rm -rf temp_src && ls -lart
