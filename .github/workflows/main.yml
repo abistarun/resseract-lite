@@ -18,6 +18,6 @@ jobs:
           email: abistarun@gmail.com
           commit-message: Auto Documentation Generated
           push-branch: gh-pages
-          force-push: false
+          force-push: true
           rebase: true
           files: index.html
