@@ -19,5 +19,4 @@ jobs:
           author_email: abistarun@gmail.com
           message: Auto Documentation Generated
           push: 'origin gh-pages --force'
-          pull: '--rebase'
 
