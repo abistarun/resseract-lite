@@ -1,7 +1,0 @@
-<div *ngIf="!valueBased" class="centerParent">
-  <mat-spinner style="position: absolute" [diameter]="30" class="centerParent"></mat-spinner>
-</div>
-<div *ngIf="valueBased" class="centerParent" style="padding-top: 20px">
-  <mat-progress-bar [mode]="'determinate'" [value]="progress"></mat-progress-bar>
-  <div style="text-align: center; padding: 10px">{{progress | number : '1.2-2'}} % </div>
-</div>

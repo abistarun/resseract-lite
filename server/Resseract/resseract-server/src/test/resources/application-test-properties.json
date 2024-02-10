@@ -1,9 +1,0 @@
-{
-  "hibernate.connection.url": "jdbc:sqlite:file:resseract-test.db?cache=shared",
-  "hibernate.connection.username": "test",
-  "hibernate.connection.password": "test",
-  "hibernate.current_session_context_class": "thread",
-  "hibernate.connection.foreign_keys": "true",
-  "THREAD_POOL_SIZE": "16",
-  "AUTHENTICATOR_CLASS": "abistech.resseract.auth.impl.DummyAuthenticator"
-}
