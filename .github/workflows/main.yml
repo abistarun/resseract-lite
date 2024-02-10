@@ -20,4 +20,4 @@ jobs:
           push-branch: gh-pages
           force-push: true
           rebase: true
-          files: ../index.html
+          files: temp/index.html
