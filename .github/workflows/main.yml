@@ -6,8 +6,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: npm i markdown-to-html-cli -g
-      - run: ls -lart
       - name: Check out repository code
         uses: actions/checkout@v4
-      - run: markdown-to-html --output coverage/index.html
-      - run: markdown-to-html --source src/README.md --output coverage/index.html
+      - run: ls -lart
+      - run: markdown-to-html --source README.md --output index.html
+      - run: ls -lart
