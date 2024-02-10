@@ -27,7 +27,8 @@ jobs:
           cd temp
           ls -lart
           git checkout -b gh-pages
-          git add index.html
           mv ../index.html index.html
+          ls -lart
+          git add index.html
           git commit -m "Auto Deployment"
           git push --set-upstream origin gh-pages
