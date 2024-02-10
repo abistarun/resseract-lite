@@ -18,12 +18,10 @@ jobs:
         with:
           branches: gh-pages
       - name: Github commit and push
-        uses: github-actions-x/commit@v2.9
+        uses: EndBug/add-and-commit@v9.1.4
         with:
-          name: github-actions
-          email: abistarun@gmail.com
-          commit-message: Auto Documentation Generated
-          push-branch: gh-pages
-          force-push: true
-          rebase: true
-          files: temp/index.html
+          author_name: github-actions
+          author_email: abistarun@gmail.com
+          message: Auto Documentation Generated
+          new_branch: gh-pages
+          add: index.html
