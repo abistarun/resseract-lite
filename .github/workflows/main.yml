@@ -6,5 +6,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: npm i markdown-to-html-cli -g
+      - run: ls -lart
       - run: markdown-to-html --output coverage/index.html
       - run: markdown-to-html --source src/README.md --output coverage/index.html
