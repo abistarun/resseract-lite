@@ -27,8 +27,11 @@ jobs:
           cd temp
           ls -lart
           git checkout -b gh-pages
+          rm -rf * .gitignore .github
           mv ../index.html index.html
           ls -lart
           git add index.html
+          git config --global user.email "abistarun@github.com"
+          git config --global user.name "Github Actions"
           git commit -m "Auto Deployment"
           git push --set-upstream origin gh-pages
