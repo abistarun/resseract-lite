@@ -15,7 +15,7 @@ jobs:
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git checkout gh-pages
+          git checkout origin/gh-pages
           git add index.html
           git commit -m "Auto Documentation Generated"
           git push
