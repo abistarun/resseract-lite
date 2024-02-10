@@ -19,3 +19,5 @@ jobs:
           author_email: abistarun@gmail.com
           message: Auto Documentation Generated
           new_branch: gh-pages
+          pull: '--rebase'
+
