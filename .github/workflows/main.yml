@@ -14,6 +14,7 @@ jobs:
       - run: mkdir temp && mv index.html temp/index.html && ls -lart
       - run: rm -rf temp_src && mv temp/index.html index.html && rm -rf temp && ls -lart
       - name: Github Delete gh-pages branch
+        continue-on-error: true
         uses: dawidd6/action-delete-branch@v3.1.0
         with:
           branches: gh-pages
