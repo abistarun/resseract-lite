@@ -10,7 +10,7 @@ jobs:
         uses: actions/checkout@v4
       - run: ls -lart
       - run: markdown-to-html --source README.md --output index.html
-      - run: mkdir temp && cd temp && ls -lart
+      - run: mkdir temp && mv index.html temp/index.html && ls -lart
       - name: Github commit and push
         uses: github-actions-x/commit@v2.9
         with:
