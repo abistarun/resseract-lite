@@ -146,7 +146,7 @@ public class BooleanColumn extends AbstractColumn<Boolean> {
 
     @Override
     public String toString() {
-        return "StringColumn{" +
+        return "BooleanColumn{" +
                 "data=" + data +
                 '}';
     }

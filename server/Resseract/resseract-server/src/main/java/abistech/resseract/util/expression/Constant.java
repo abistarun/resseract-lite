@@ -16,6 +16,9 @@ class Constant implements Expression {
         } else if (expression.equalsIgnoreCase("true") || expression.equalsIgnoreCase("false")) {
             dataType = DataType.BOOLEAN;
             constant = Util.parseBoolean(expression);
+        } else if (expression.equalsIgnoreCase("null")) {
+            dataType = null;
+            constant = null;
         } else {
             dataType = DataType.NUMERICAL;
             constant = Double.parseDouble(expression);

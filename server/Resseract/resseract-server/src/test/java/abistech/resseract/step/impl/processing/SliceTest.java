@@ -52,4 +52,19 @@ public class SliceTest {
         Assert.assertEquals(2, result.noOfRows());
     }
 
+
+    @Test
+    public void testSliceOnNullValues() throws ResseractException {
+        DataKey dataKey = new DataKey("Test");
+        Data input = new DataFrame(dataKey);
+        input.addCategoricalColumn(new StringColumn("C1", new String[]{"A", "B", null, "A", "A", "B", "B", "C", "B"}));
+        input.addCategoricalColumn(new StringColumn("C2", new String[]{"A", null, null, null, null, null, null, "C", null}));
+        Slice step = new Slice();
+        Config config = new Config();
+        config.put(ConfigKey.SLICE_EXPRESSION, "[C2] != null");
+
+        Data result = step.execute(new DatasetImpl(input), config).getData();
+        Assert.assertEquals(2, result.noOfCols());
+        Assert.assertEquals(2, result.noOfRows());
+    }
 }
