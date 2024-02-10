@@ -12,7 +12,7 @@ jobs:
       - run: mv * temp_src || ls -lart
       - run: markdown-to-html --source temp_src/README.md --output index.html
       - run: mkdir temp && mv index.html temp/index.html && ls -lart
-      - run: rm -rf temp_src && ls -lart
+      - run: rm -rf temp_src && mv temp/index.html index.html && rm -rf temp && ls -lart
       - name: Github commit and push
         uses: github-actions-x/commit@v2.9
         with:
