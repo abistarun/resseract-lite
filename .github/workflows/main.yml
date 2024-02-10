@@ -18,8 +18,9 @@ jobs:
         uses: dawidd6/action-delete-branch@v3.1.0
         with:
           branches: gh-pages
+      - name: Check out repository code
+        uses: actions/checkout@v4
       - run: |
-          git clone git@github.com:abistarun/resserract-lite.git
           git checkout -b gh-pages
           git add index.html
           git commit -m "Auto Deployment"
