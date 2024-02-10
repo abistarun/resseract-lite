@@ -18,11 +18,9 @@ jobs:
         uses: dawidd6/action-delete-branch@v3.1.0
         with:
           branches: gh-pages
-      - name: Github commit and push
-        uses: EndBug/add-and-commit@v9.1.4
-        with:
-          author_name: github-actions
-          author_email: abistarun@gmail.com
-          message: Auto Documentation Generated
-          new_branch: gh-pages
-          add: index.html
+      - run: |
+          git clone git@github.com:abistarun/resserract-lite.git
+          git checkout -b gh-pages
+          git add index.html
+          git commit -m "Auto Deployment"
+          git push --set-upstream origin gh-pages
