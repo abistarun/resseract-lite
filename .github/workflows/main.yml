@@ -7,5 +7,7 @@ jobs:
     steps:
       - run: npm i markdown-to-html-cli -g
       - run: ls -lart
+      - name: Check out repository code
+        uses: actions/checkout@v4
       - run: markdown-to-html --output coverage/index.html
       - run: markdown-to-html --source src/README.md --output coverage/index.html
