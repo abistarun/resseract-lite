@@ -35,6 +35,10 @@ public class CommonAPITest {
         csvConfigs.add(ConfigKey.CSV_FILE);
         assertSources.put(SourceType.CSV, csvConfigs);
 
+        LinkedList<ConfigKey> liveCsvConfigs = new LinkedList<>();
+        liveCsvConfigs.add(ConfigKey.FILE_PATH);
+        assertSources.put(SourceType.LIVE_CSV, liveCsvConfigs);
+
         Assert.assertEquals(assertSources, allSources);
     }
 
@@ -57,19 +61,18 @@ public class CommonAPITest {
     }
 
     private int getExpectedConfigSize(SourceType sourceType) {
-        switch (sourceType) {
-            case CSV:
-                return 4;
-        }
-        return 0;
+        return switch (sourceType) {
+            case CSV, LIVE_CSV -> 4;
+            default -> 0;
+        };
     }
 
     private Config createSourceConfig(SourceType sourceType) throws ResseractException {
         Config config = new Config();
+        final String path = TestUtil.getResource("/DataDirectory/Data/AirPassengers/Data.csv");
         switch (sourceType) {
-            case CSV:
-                config.put(ConfigKey.CSV_FILE, TestUtil.getResource("/DataDirectory/Data/AirPassengers/Data.csv"));
-                break;
+            case CSV -> config.put(ConfigKey.CSV_FILE, path);
+            case LIVE_CSV -> config.put(ConfigKey.FILE_PATH, path);
         }
         return config;
     }

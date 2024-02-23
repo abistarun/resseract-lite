@@ -58,3 +58,8 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Angular ###
+node_modules/
+package-lock.json
+package.json

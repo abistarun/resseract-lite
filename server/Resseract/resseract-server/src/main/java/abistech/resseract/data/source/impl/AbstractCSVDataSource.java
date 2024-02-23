@@ -22,20 +22,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
-public class CSVDataSource implements Source {
+public abstract class AbstractCSVDataSource implements Source {
 
-    @Override
-    public List<ConfigKey> getSourceConfigs() {
-        LinkedList<ConfigKey> configKeys = new LinkedList<>();
-        configKeys.add(ConfigKey.CSV_FILE);
-        return configKeys;
-    }
-
-    @Override
-    public List<ConfigKey> getDataConfigs(Config sourceConfigs) throws ResseractException {
-        String filePath = (String) sourceConfigs.get(ConfigKey.CSV_FILE);
+    List<ConfigKey> getDataConfigs(String filePath) throws ResseractException {
         File csvFile = new File(filePath);
-
         try (FileReader fileReader = new FileReader(csvFile);
              CSVReader csvReader = new CSVReader(fileReader)) {
             String[] allColumns = csvReader.readNext();
@@ -48,7 +38,7 @@ public class CSVDataSource implements Source {
                     String element = elements[i];
                     if (Util.isValidString(element) && !columnIndexScanned.contains(i)) {
                         columnIndexScanned.add(i);
-                        String columnName = allColumns[i];
+                        String columnName = allColumns[i].trim();
                         ConfigKey dataTypeConfig = new ConfigKey(columnName + Constants.DATA_TYPE_POSTFIX,
                                 columnName + Constants.DATA_TYPE_POSTFIX, null, ConfigValueType.LIST, DataType.values(), true);
                         result.add(dataTypeConfig);
@@ -93,9 +83,7 @@ public class CSVDataSource implements Source {
         }
     }
 
-    @Override
-    public Data fetch(Config config) throws ResseractException {
-        String filePath = (String) config.get(ConfigKey.CSV_FILE);
+    Data fetch(Config config, String filePath, boolean addDataPoints) throws ResseractException {
         String dataKeyStr = (String) config.get(ConfigKey.DATA_KEY);
         DataKey dataKey = new DataKey(dataKeyStr);
         File csvFile = new File(filePath);
@@ -107,7 +95,7 @@ public class CSVDataSource implements Source {
             Map<String, String> formats = new HashMap<>();
             Map<Integer, String> columnIndexMap = new HashMap<>();
             for (int i = 0; i < columnNames.length; i++) {
-                String columnName = columnNames[i];
+                String columnName = columnNames[i].trim();
                 DataType dataType = DataType.valueOf((String) config.get(columnName + Constants.DATA_TYPE_POSTFIX));
                 dataTypes.put(columnName, dataType);
                 columnIndexMap.put(i, columnName);
@@ -118,9 +106,11 @@ public class CSVDataSource implements Source {
             }
             StringBasedDataFrameBuilder builder = new StringBasedDataFrameBuilder(dataKey, dataTypes, formats, columnIndexMap);
 
-            String[] values;
-            while ((values = csvReader.readNext()) != null) {
-                builder.addDataPoint(values);
+            if (!addDataPoints) {
+                String[] values;
+                while ((values = csvReader.readNext()) != null) {
+                    builder.addDataPoint(values);
+                }
             }
             return builder.build();
         } catch (IOException | CsvValidationException e) {
@@ -139,7 +129,7 @@ public class CSVDataSource implements Source {
     }
 
     @Override
-    public Data fetchSchematicData(Config configurations) {
+    public Data fetchSchematicData(Config configurations) throws ResseractException {
         return null;
     }
 

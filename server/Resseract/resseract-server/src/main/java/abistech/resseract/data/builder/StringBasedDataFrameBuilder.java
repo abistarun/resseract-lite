@@ -26,22 +26,16 @@ public class StringBasedDataFrameBuilder {
         this.columnIndexMap = columnIndexMap;
         data = new DataFrame(dataKey);
         for (Map.Entry<String, DataType> entry : dataTypes.entrySet()) {
-            String columnName = entry.getKey();
+            String columnName = entry.getKey().trim();
             DataType dataType = entry.getValue();
             switch (dataType) {
-                case DATE:
+                case DATE -> {
                     data.addDateColumn(new DateColumn(columnName));
                     this.formats.put(columnName, new SimpleDateFormat(formats.get(columnName)));
-                    break;
-                case NUMERICAL:
-                    data.addNumericColumn(new DoubleColumn(columnName));
-                    break;
-                case CATEGORICAL:
-                    data.addCategoricalColumn(new StringColumn(columnName));
-                    break;
-                case BOOLEAN:
-                    data.addBooleanColumn(new BooleanColumn(columnName));
-                    break;
+                }
+                case NUMERICAL -> data.addNumericColumn(new DoubleColumn(columnName));
+                case CATEGORICAL -> data.addCategoricalColumn(new StringColumn(columnName));
+                case BOOLEAN -> data.addBooleanColumn(new BooleanColumn(columnName));
             }
         }
 
@@ -50,30 +44,26 @@ public class StringBasedDataFrameBuilder {
     public void addDataPoint(String[] values) throws ResseractException {
         for (int i = 0; i < values.length; i++) {
             String value = values[i];
-            String columnName = columnIndexMap.get(i);
+            String columnName = columnIndexMap.get(i).trim();
             if (!Util.isValidString(value))
                 value = null;
             switch (dataTypes.get(columnName)) {
-                case DATE:
+                case DATE -> {
                     try {
                         data.getDateColumn(columnName).add(value == null ? null : formats.get(columnName).parse(value));
                     } catch (ParseException e) {
                         throw new ResseractException(CustomErrorReports.INVALID_DATE_FORMAT, columnName, e);
                     }
-                    break;
-                case NUMERICAL:
+                }
+                case NUMERICAL -> {
                     try {
                         data.getNumericColumn(columnName).add(value == null ? null : Double.valueOf(value));
                     } catch (Exception e) {
                         throw new ResseractException(CustomErrorReports.INVALID_NUMBER, value, columnName, e);
                     }
-                    break;
-                case CATEGORICAL:
-                    data.getCategoricalColumn(columnName).add(value);
-                    break;
-                case BOOLEAN:
-                    data.getBooleanColumn(columnName).add(Util.parseBoolean(value));
-                    break;
+                }
+                case CATEGORICAL -> data.getCategoricalColumn(columnName).add(value);
+                case BOOLEAN -> data.getBooleanColumn(columnName).add(Util.parseBoolean(value));
             }
         }
     }

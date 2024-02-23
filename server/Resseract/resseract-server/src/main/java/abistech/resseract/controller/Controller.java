@@ -61,20 +61,20 @@ class Controller {
     }
 
     @PostMapping("/generatedataconfiguration/{source}")
-    public List<ConfigKey> getDataConfigurations(@PathVariable SourceType source, @RequestBody Config sourceConfig) throws ResseractException {
-        return CoreServer.getDataConfigurations(source, sourceConfig);
+    public List<ConfigKey> getDataConfigurations(@PathVariable String source, @RequestBody Config sourceConfig) throws ResseractException {
+        return CoreServer.getDataConfigurations(SourceType.getSourceType(source), sourceConfig);
     }
 
     @PostMapping("/uploaddata/{source}")
-    public ResponseEntity uploadData(@PathVariable SourceType source, @RequestBody Config configurations) throws ResseractException {
-        CoreServer.uploadData(source, configurations, true);
+    public ResponseEntity uploadData(@PathVariable String source, @RequestBody Config configurations) throws ResseractException {
+        CoreServer.uploadData(SourceType.getSourceType(source), configurations, true);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/customcolumn")
     public ResponseEntity addCustomColumn(@RequestBody Map<String, String> configurations) throws ResseractException {
         DataKey dataKey = new DataKey(configurations.get("dataKey"));
-        String columnName = configurations.get("columnName");
+        String columnName = configurations.get("columnName").trim();
         String expression = configurations.get("expression");
         CoreServer.addCustomColumn(dataKey, columnName, expression);
         return new ResponseEntity<>(HttpStatus.OK);

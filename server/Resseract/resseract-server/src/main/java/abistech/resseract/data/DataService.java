@@ -33,7 +33,7 @@ public class DataService {
 
     public static void initialize(Properties properties) {
         DAOFactory.getDefaultDAO().initialize(properties);
-        dataCache = new ResseractCache<>(30);
+        dataCache = new ResseractCache<>(Constants.CACHE_INTERVAL_SEC);
     }
 
     public static Map<SourceType, List<ConfigKey>> fetchSourceConfigs() {
@@ -141,7 +141,7 @@ public class DataService {
         for (Column<?> internalColumn : internalData.getAllColumns()) {
             Object expr = internalColumn.getProperty(Constants.EXPRESSION);
             if (expr != null) {
-                String columnName = internalColumn.getName();
+                String columnName = internalColumn.getName().trim();
                 Column<?> column = evaluator.evaluateExpression((String) expr, columnName);
                 data.removeColumn(columnName);
                 data.addColumn(column);

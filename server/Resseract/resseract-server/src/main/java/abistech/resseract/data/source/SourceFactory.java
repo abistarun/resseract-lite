@@ -1,13 +1,14 @@
 package abistech.resseract.data.source;
 
-import abistech.resseract.data.source.impl.CSVDataSource;
-import abistech.resseract.data.source.impl.PostGresDBSource;
+import abistech.resseract.data.source.impl.CSVUploadDataSource;
+import abistech.resseract.data.source.impl.LiveCSVDataSource;
 
 public class SourceFactory {
 
     public static Source getSource(SourceType sourceType) {
         return switch (sourceType) {
-            case CSV -> new CSVDataSource();
+            case CSV -> new CSVUploadDataSource();
+            case LIVE_CSV -> new LiveCSVDataSource();
             default -> null;
         };
     }

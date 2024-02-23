@@ -26,6 +26,7 @@ public class ConfigKey {
     public static final ConfigKey CATEGORICAL_AGGREGATION = new ConfigKey("Categorical Aggregation", "CATEGORICAL_AGGREGATION", CategoricalAggregationType.FIRST_VALUE, ConfigValueType.LIST, CategoricalAggregationType.values(), true);
     public static final ConfigKey DATE_AGGREGATION = new ConfigKey("Date Aggregation", "DATE_AGGREGATION", DateAggregationType.FIRST_VALUE, ConfigValueType.LIST, DateAggregationType.values(), true);
     public static final ConfigKey CSV_FILE = new ConfigKey("CSV File", "CSV_FILE", null, ConfigValueType.FILE, null, true);
+    public static final ConfigKey FILE_PATH = new ConfigKey("CSV File Path", "FILE_PATH", null, ConfigValueType.STRING, null, true);
     public static final ConfigKey TARGET_COLUMNS = new ConfigKey("Target Columns", "TARGET_COLUMNS", null, ConfigValueType.COLUMN_NAMES, null, true, Arrays.asList(DataType.NUMERICAL, DataType.CATEGORICAL));
     public static final ConfigKey EXPRESSION = new ConfigKey("Expression", "EXPRESSION", null, ConfigValueType.STRING, null, true);
     public static final ConfigKey SLICE_EXPRESSION = new ConfigKey("Slice Expression", "SLICE_EXPRESSION", null, ConfigValueType.STRING, null, true);

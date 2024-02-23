@@ -132,7 +132,7 @@ abstract class AbstractDBSource implements Source {
         Map<Integer, String> columnNameVsIndex = new HashMap<>();
         int columnCount = resultSet.getMetaData().getColumnCount();
         for (int i = 0; i < columnCount; i++) {
-            String columnName = resultSet.getMetaData().getColumnName(i + 1);
+            String columnName = resultSet.getMetaData().getColumnName(i + 1).trim();
             columnNameVsIndex.put(i, columnName);
         }
         return columnNameVsIndex;
@@ -163,7 +163,7 @@ abstract class AbstractDBSource implements Source {
         int columnCount = resultSet.getMetaData().getColumnCount();
         Map<String, DataType> columnDataTypes = new HashMap<>(columnCount);
         for (int i = 0; i < columnCount; i++) {
-            String columnName = resultSet.getMetaData().getColumnName(i + 1);
+            String columnName = resultSet.getMetaData().getColumnName(i + 1).trim();
             columnDataTypes.put(columnName, decideDataType(resultSet.getMetaData().getColumnType(i + 1)));
         }
         return columnDataTypes;

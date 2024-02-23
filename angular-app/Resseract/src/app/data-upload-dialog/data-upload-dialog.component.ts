@@ -32,16 +32,16 @@ export class DataUploadDialogComponent implements OnInit {
     private analysisService: AnalysisService) { }
 
   ngOnInit() {
-    this.fetcherService.getAllSources().subscribe(
-      sources => {
+    this.fetcherService.getAllSources().subscribe({
+      next: sources => {
         this.sourcesData = sources;
         this.sourceTypes = Object.keys(this.sourcesData)
         this.isLoaded = true;
       },
-      error => {
+      error: error => {
         close();
         throw error;
-      });
+      }});
   }
 
   close() {
@@ -53,22 +53,22 @@ export class DataUploadDialogComponent implements OnInit {
     this.errorMessage = null;
     let config: Configration = new Configration();
     Object.assign(config.properties, this.sourceConfigPropertyEditor.buildProperties(), this.dataConfigPropertyEditor.buildProperties());
-    this.fetcherService.uploadData(this.selectedSource, config).subscribe(
-      _ => {
+    this.fetcherService.uploadData(this.selectedSource, config).subscribe({
+      next: _ => {
         setTimeout(() => this.trackProgress(new DataKey(config.properties['DATA_KEY'])), 2000);
       },
-      error => {
+      error: error => {
         this.isLoaded = true;
         this.errorMessage = error.message;
         if (error instanceof HttpErrorResponse && error.status == 499)
           this.errorMessage = error.error.message;
       }
-    );
+    });
   }
 
   trackProgress(dataKey: DataKey) {
-    this.fetcherService.uploadDataProgress(dataKey).subscribe(
-      progress => {
+    this.fetcherService.uploadDataProgress(dataKey).subscribe({
+      next: progress => {
         this.uploadProgressElemnent.updateProgress(progress);
         if (progress == 100) {
           this.isLoaded = true;
@@ -76,13 +76,13 @@ export class DataUploadDialogComponent implements OnInit {
         } else
           setTimeout(() => this.trackProgress(dataKey), 2000);
       },
-      error => {
+      error: error => {
         this.isLoaded = true;
         this.errorMessage = error.message;
         if (error instanceof HttpErrorResponse && error.status == 499)
           this.errorMessage = error.error.message;
       }
-    );
+    });
   }
 
   getSourceConfigs() {
@@ -103,17 +103,17 @@ export class DataUploadDialogComponent implements OnInit {
     this.isLoaded = false;
     let config: Configration = new Configration();
     config.properties = this.sourceConfigPropertyEditor.buildProperties();
-    this.fetcherService.getDataConfigurations(this.selectedSource, config).subscribe(
-      dataConfigKeys => {
+    this.fetcherService.getDataConfigurations(this.selectedSource, config).subscribe({
+      next: dataConfigKeys => {
         this.dataConfigKeys = this.processDataConfigKeys(dataConfigKeys);
         this.isLoaded = true;
       },
-      error => {
+      error: error => {
         close();
         this.isLoaded = true;
         throw error;
       }
-    );
+    });
   }
 
   processDataConfigKeys(result: ConfigKey[]): ConfigKey[] {

@@ -65,7 +65,7 @@ public class GroupBy extends AbstractStep {
             }
             Map<String, List<Object>> targetColumnValues = entry.getValue();
             for (Map.Entry<String, List<Object>> targetEntry : targetColumnValues.entrySet()) {
-                String columnName = targetEntry.getKey();
+                String columnName = targetEntry.getKey().trim();
                 DataType dataType = dataTypeMap.get(columnName);
                 if (dataType == DataType.NUMERICAL) {
                     Double aggregatedValue = (Double) numericalAgg.aggregate(targetEntry.getValue());

@@ -37,6 +37,7 @@ public class Constants {
     public static final String AUTHENTICATOR = "AUTHENTICATOR_CLASS";
     public static final String EXPRESSION = "EXPRESSION";
     public static final String OS_NAME = "os.name";
+    public static final int CACHE_INTERVAL_SEC = 5;
     static final String ONE = "1";
     static final String ONE_D = "1.0";
 

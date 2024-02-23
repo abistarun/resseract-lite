@@ -18,6 +18,7 @@ import abistech.resseract.pipeline.Pipeline;
 import abistech.resseract.pipeline.executor.PipelineExecutionEngine;
 import abistech.resseract.pipeline.executor.PipelineExecutor;
 import abistech.resseract.step.elements.Dataset;
+import abistech.resseract.util.Constants;
 import abistech.resseract.util.Util;
 import abistech.resseract.util.cache.ResseractCache;
 import org.apache.logging.log4j.LogManager;
@@ -49,7 +50,7 @@ public class CoreServer {
             ThreadPool.initialize(properties);
             AuthenticationService.initialize(properties);
             DaemonContext.initialize();
-            analysisCache = new ResseractCache<>(30);
+            analysisCache = new ResseractCache<>(Constants.CACHE_INTERVAL_SEC);
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(1);
