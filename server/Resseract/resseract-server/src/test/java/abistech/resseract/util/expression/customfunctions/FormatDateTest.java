@@ -13,6 +13,7 @@ import org.junit.Test;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 public class FormatDateTest {
 
@@ -20,7 +21,7 @@ public class FormatDateTest {
     public void testFormatDate() throws ResseractException, ParseException {
         DataKey dataKey = new DataKey("Test");
         DateColumn dateColumn = new DateColumn("INDEX", 5);
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/yy");
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/yy", Locale.ENGLISH);
         dateColumn.add(sdf.parse("01/19"));
         dateColumn.add(sdf.parse("02/19"));
 

@@ -10,6 +10,7 @@ import { CoreFetcherService } from '../../services/core-fetcher/core-fetcher.ser
 import { CoreEventEmitterService } from '../../services/core-event-emiter/core-event-emitter.service';
 import { SliceService } from '../../services/slice-service/slice-service.service';
 import { AnalysisService } from '../../services/analysis-service/analysis-service.service';
+import { HumanizePipe } from 'src/app/pipes/humanize';
 
 @Component({
   selector: 'app-data-value-widget',
@@ -23,6 +24,7 @@ export class DataValueWidgetComponent extends AbstractWidget {
 
   private columnName: string;
   private value: string;
+  humanize = new HumanizePipe();
 
   constructor(protected dialog: MatDialog,
     protected fetcherService: CoreFetcherService,
@@ -42,6 +44,11 @@ export class DataValueWidgetComponent extends AbstractWidget {
       fontSize: {
         name: "Font Size",
         value: "",
+        group: "Formatting"
+      },
+      threshold: {
+        name: "Threshold",
+        value: 0,
         group: "Formatting"
       }
     }
@@ -82,7 +89,7 @@ export class DataValueWidgetComponent extends AbstractWidget {
     let spec = this.processSlice(this.specAdded);
     this.fetcherService.runAnalysis([spec]).subscribe((result) => {
       let columnName = Object.keys(result[0].columns)[0];
-      this.value = result[0].columns[columnName].data[0];
+      this.value = this.humanize.transform(result[0].columns[columnName].data[0]);
       if (!this.customOptions['title'].value)
         this.customOptions['title'].value = this.columnName;
       this.reflow();
@@ -100,11 +107,11 @@ export class DataValueWidgetComponent extends AbstractWidget {
 
   reflow() {
     setTimeout(() => {
-      this.setFontSize();
+      this.setFont();
     }, 500);
   }
 
-  private setFontSize() {
+  private setFont() {
     let ele = this.dataValueElement;
     if (ele) {
       let fontSize: number;
@@ -115,9 +122,22 @@ export class DataValueWidgetComponent extends AbstractWidget {
         let height = ele.nativeElement.offsetHeight;
         fontSize = (width * 0.25) < (height * 0.4) ? width * 0.25 : height * 0.4;
       }
+      let threshold: number;
+      if (this.customOptions['threshold'] && this.customOptions['threshold'].value) {
+        threshold = this.customOptions['threshold'].value;
+      } else {
+        threshold = 0;
+      }
+      let floatValue: number;
+      if (this.value) {
+        floatValue = parseFloat(this.value.replace(/,/g, ''));
+      }
       ele.nativeElement.style.setProperty('font-size', fontSize + "px");
+      if (floatValue && !isNaN(floatValue))
+        ele.nativeElement.style.setProperty('color', floatValue >= threshold ? 'green' : 'red');
       let unitSize = (fontSize * 0.25);
-      this.unitsElement.nativeElement.style.setProperty('font-size', unitSize + "px");
+      if (this.unitsElement && this.unitsElement.nativeElement)
+        this.unitsElement.nativeElement.style.setProperty('font-size', unitSize + "px");
       if (!this.customOptions['fontSize']) {
         this.customOptions['fontSize'] = {
           name: "Font Size",

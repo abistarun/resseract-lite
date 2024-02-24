@@ -2,6 +2,7 @@ import { Component, NgZone } from '@angular/core';
 import { CoreEventEmitterService } from './services/core-event-emiter/core-event-emitter.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import * as Highcharts from 'highcharts';
 
 @Component({
   selector: 'app-root',
@@ -16,6 +17,7 @@ export class AppComponent {
     public snackBar: MatSnackBar,
     private router: Router,
     private zone: NgZone) {
+      Highcharts.setOptions({ lang: { thousandsSep: ',' } });
   }
 
   ngOnInit() {

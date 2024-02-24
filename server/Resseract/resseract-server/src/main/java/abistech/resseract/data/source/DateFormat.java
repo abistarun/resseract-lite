@@ -5,6 +5,7 @@ import abistech.resseract.data.frame.DataPeriod;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.LinkedHashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class DateFormat {
@@ -70,7 +71,7 @@ public class DateFormat {
 
     private DateFormat(String format, DataPeriod period) {
         this.format = format;
-        this.sdf = new SimpleDateFormat(format);
+        this.sdf = new SimpleDateFormat(format, Locale.ENGLISH);
         this.sdf.setLenient(false);
         this.period = period;
     }

@@ -14,8 +14,8 @@
     <div class="title">
       {{customOptions.title.value}}
     </div>
-    <div id="dataValueElement" #dataValueElement style="height: 90%">{{value | humanize}}<div id="unitsElement"
-        #unitsElement style="display: inline-block;">{{customOptions.units.value}}</div>
+    <div id="dataValueElement" #dataValueElement style="height: 90%">{{value}}<div 
+      id="unitsElement" *ngIf="value != 'NA'" #unitsElement style="display: inline-block;">{{customOptions.units.value}}</div>
     </div>
   </div>
   <div id="menu">

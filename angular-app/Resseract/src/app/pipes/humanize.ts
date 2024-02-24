@@ -8,6 +8,15 @@ export class HumanizePipe implements PipeTransform {
         const isFloat = (n) => {
             return n === +n && n !== (n | 0);
         }
-        return isFloat(+value) ? (+value).toFixed(2) : value;
+        if (isNaN(+value)) {
+            return "NA"
+        }
+        if (isFloat(+value)) {
+            if (!isFinite(+value)) {
+                return "NA"
+            }     
+            return (+value).toLocaleString('en-IN', {maximumFractionDigits: 2})      
+        }
+        return value;
     }
 }

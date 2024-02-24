@@ -9,6 +9,7 @@ import abistech.resseract.util.expression.Expression;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class FormatDate implements CustomFunction {
     public static final String NAME = "formatdate";
@@ -18,7 +19,7 @@ public class FormatDate implements CustomFunction {
     public FormatDate(List<Expression> arguments) throws ResseractException {
         expression = arguments.get(0);
         String format = (String) arguments.get(1).eval(null);
-        sdf = new SimpleDateFormat(format);
+        sdf = new SimpleDateFormat(format, Locale.ENGLISH);
     }
 
     @Override

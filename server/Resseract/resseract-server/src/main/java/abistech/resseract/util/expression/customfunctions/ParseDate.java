@@ -10,6 +10,7 @@ import abistech.resseract.util.expression.Expression;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 public class ParseDate implements CustomFunction {
     public static final String NAME = "parsedate";
@@ -19,7 +20,7 @@ public class ParseDate implements CustomFunction {
     public ParseDate(List<Expression> arguments) throws ResseractException {
         expression = arguments.get(0);
         String format = (String) arguments.get(1).eval(null);
-        sdf = new SimpleDateFormat(format);
+        sdf = new SimpleDateFormat(format, Locale.ENGLISH);
     }
 
     @Override

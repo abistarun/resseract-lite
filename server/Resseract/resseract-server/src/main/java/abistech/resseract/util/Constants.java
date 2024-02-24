@@ -1,6 +1,7 @@
 package abistech.resseract.util;
 
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 public class Constants {
 
@@ -15,7 +16,7 @@ public class Constants {
     public static final String DB_PLATFORM = "hibernate.dialect";
     public static final String THREAD_POOL_SIZE = "THREAD_POOL_SIZE";
     public static final String INDEX_FORMAT = "yyyy-MM-dd HH:mm:ss";
-    public static final SimpleDateFormat INDEX_FORMATTER = new SimpleDateFormat(INDEX_FORMAT);
+    public static final SimpleDateFormat INDEX_FORMATTER = new SimpleDateFormat(INDEX_FORMAT, Locale.ENGLISH);
     public static final String CSV_SEPARATOR = ",";
     public static final String CSV = "\\.csv";
     public static final String INDEX = "Index";

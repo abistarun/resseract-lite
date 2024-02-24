@@ -140,6 +140,12 @@ export class BasicChartWidgetComponent extends AbstractWidget {
             enabled: false
           }
         },
+        spline: {
+          lineWidth: 3,
+          marker: {
+            enabled: false
+          }
+        },
         column: {
           dataLabels: {
             enabled: true,
@@ -230,7 +236,7 @@ export class BasicChartWidgetComponent extends AbstractWidget {
         this.customOptions[currTypeOption] = {
           name: colName + " Series Type",
           value: null,
-          possibleValues: ['line', 'scatter'],
+          possibleValues: ['spline', 'line', 'scatter'],
           group: colName + " Series",
           type: 'list',
           chartPath: "type",
@@ -258,12 +264,6 @@ export class BasicChartWidgetComponent extends AbstractWidget {
         }
       this.customOptions[currShowLabelsOption]["transform"] = (value: string) => value == 'true'
       
-      oldSeriesOptions.forEach(oldSeries => {
-        if (!newSeriesOptions.includes(oldSeries)) {
-          delete this.customOptions[oldSeries];
-        }
-      });
-
       let data = result.columns[colName].data
       data.forEach(function (element, index) {
         if (element === 0) {
@@ -274,6 +274,11 @@ export class BasicChartWidgetComponent extends AbstractWidget {
         id: "series" + colName,
         data: data
       })
+    });
+    oldSeriesOptions.forEach(oldSeries => {
+      if (!newSeriesOptions.includes(oldSeries)) {
+        delete this.customOptions[oldSeries];
+      }
     });
     return series;
   }

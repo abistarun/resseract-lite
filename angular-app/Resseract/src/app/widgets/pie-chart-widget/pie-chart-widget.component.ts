@@ -94,6 +94,14 @@ export class PieChartWidgetComponent extends AbstractWidget {
       chart: {
         type: 'pie'
       },
+      plotOptions: {
+        pie: {
+          dataLabels: {
+            enabled: true,
+            format: '<b>{point.name}</b>:<br>{point.percentage:.1f} %',
+          }
+        }
+      },
       series: this.prepareSeries(result[0])
     };
     this.chart = chart(this.chartTarget.nativeElement, chartOptions);

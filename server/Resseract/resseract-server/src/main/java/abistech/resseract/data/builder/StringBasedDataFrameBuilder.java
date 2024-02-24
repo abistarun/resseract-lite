@@ -11,6 +11,7 @@ import abistech.resseract.data.frame.impl.DataFrame;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class StringBasedDataFrameBuilder {
@@ -31,7 +32,7 @@ public class StringBasedDataFrameBuilder {
             switch (dataType) {
                 case DATE -> {
                     data.addDateColumn(new DateColumn(columnName));
-                    this.formats.put(columnName, new SimpleDateFormat(formats.get(columnName)));
+                    this.formats.put(columnName, new SimpleDateFormat(formats.get(columnName), Locale.ENGLISH));
                 }
                 case NUMERICAL -> data.addNumericColumn(new DoubleColumn(columnName));
                 case CATEGORICAL -> data.addCategoricalColumn(new StringColumn(columnName));
