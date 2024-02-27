@@ -3,6 +3,7 @@ package abistech.resseract.data;
 import abistech.resseract.config.Config;
 import abistech.resseract.config.ConfigKey;
 import abistech.resseract.data.dao.impl.HibernateUtil;
+import abistech.resseract.data.frame.Data;
 import abistech.resseract.data.frame.DataKey;
 import abistech.resseract.data.frame.impl.column.DataType;
 import abistech.resseract.data.frame.impl.column.DoubleColumn;
@@ -16,10 +17,12 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 public class DataServiceTest {
 
@@ -128,6 +131,27 @@ public class DataServiceTest {
         expectedConfig.setProperties(config);
         DataInfo expectedDataInfo = new DataInfo(dataKey, SourceType.CSV, columnProperties, expectedConfig);
         Assert.assertEquals(expectedDataInfo, dataInfo);
+    }
+
+    @Test
+    public void testGetDataHead() throws ResseractException, ParseException {
+        // Setup
+        List<Object[]> expectedHead = new ArrayList<>();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yy");
+        expectedHead.add(new Object[]{1d, sdf.parse("01-10-08 00:00:00"), 10d, 2008d, 17d, 17d, 17d, 17d, 17d, 17d, "Cat", "Dog", true});
+        expectedHead.add(new Object[]{2d, sdf.parse("01-11-08 00:00:00"), 11d, 2008d, 17d, 17d, 16d, 17d, 17d, 17d, "Pig", "Hat", true});
+        expectedHead.add(new Object[]{3d, sdf.parse("01-12-08 00:00:00"), 12d, 2008d, 17d, 17d, 14d, 17d, 17d, 16d, "Get", "Lost", true});
+        expectedHead.add(new Object[]{4d, sdf.parse("01-01-09 00:00:00"), 1d, 2009d, 16d, 17d, 13d, 17d, 17d, 14d, "Bye", "Bye", null});
+        expectedHead.add(new Object[]{5d, sdf.parse("01-02-09 00:00:00"), 2d, 2009d, 14d, 16d, 11d, 17d, 17d, 13d, "Bye", "Will", null});
+
+        // Test
+        Data data = DataService.getData(new DataKey("GenericSampleData"));
+
+        // Verify
+        List<Object[]> head = data.head(5);
+        for (int i = 0; i < 5; i++) {
+            Assert.assertArrayEquals(expectedHead.get(i), head.get(i));
+        }
     }
 
     @Test

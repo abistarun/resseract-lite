@@ -60,7 +60,7 @@ public class Util {
 
     public static Boolean parseBoolean(Object string) {
         if (string == null)
-            return false;
+            return null;
         return string.toString().equalsIgnoreCase(Constants.ONE) ||
                 string.toString().equalsIgnoreCase(Constants.ONE_D) ||
                 string.toString().equalsIgnoreCase(Constants.TRUE);

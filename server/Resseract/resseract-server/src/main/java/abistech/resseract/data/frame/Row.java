@@ -13,4 +13,6 @@ public interface Row {
     Object getIndex();
 
     Set<String> getColumns();
+
+    Object[] toObjectArray();
 }

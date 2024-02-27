@@ -322,23 +322,17 @@ public class DBDAO implements DAO {
         assert properties != null;
         DataType dataType = DataType.valueOf((String) properties.get(Constants.DATA_TYPE));
         switch (dataType) {
-            case DATE:
+            case DATE -> {
                 List<Date> dates = new ArrayList<>(list.size());
                 for (Object o : list) {
                     dates.add(o == null ? null : new Date(Long.parseLong(o.toString())));
                 }
                 list = dates;
                 column = new DateColumn(dbColumn.getColumnName(), properties);
-                break;
-            case NUMERICAL:
-                column = new DoubleColumn(dbColumn.getColumnName(), properties);
-                break;
-            case CATEGORICAL:
-                column = new StringColumn(dbColumn.getColumnName(), properties);
-                break;
-            case BOOLEAN:
-                column = new BooleanColumn(dbColumn.getColumnName(), properties);
-                break;
+            }
+            case NUMERICAL -> column = new DoubleColumn(dbColumn.getColumnName(), properties);
+            case CATEGORICAL -> column = new StringColumn(dbColumn.getColumnName(), properties);
+            case BOOLEAN -> column = new BooleanColumn(dbColumn.getColumnName(), properties);
         }
         column.addAll(list);
         return column;

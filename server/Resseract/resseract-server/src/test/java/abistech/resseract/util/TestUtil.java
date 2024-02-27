@@ -10,13 +10,11 @@ import abistech.resseract.exception.CustomErrorReports;
 import abistech.resseract.exception.ResseractException;
 import org.apache.commons.io.FileUtils;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
+import java.util.Scanner;
 
 public class TestUtil {
 
@@ -45,7 +43,7 @@ public class TestUtil {
         String directory = getResource("/DataDirectory/Data");
         for (File file : Objects.requireNonNull(new File(directory).listFiles())) {
             if (file.isDirectory()) {
-                Config configKeys = new Config();
+                Config configKeys = getConfig(file);
                 configKeys.put(ConfigKey.DATA_KEY, file.getName());
                 configKeys.put(ConfigKey.CSV_FILE, file.getPath() + "/Data.csv");
                 List<ConfigKey> dataConfigurations = DataService.getDataConfigurations(SourceType.CSV, configKeys);
@@ -56,6 +54,21 @@ public class TestUtil {
                 }
                 DataService.uploadData(SourceType.CSV, configKeys, false);
             }
+        }
+    }
+
+    private static Config getConfig(File file) {
+        try {
+            String propertiesFileName = file.getPath() + "/properties.json";
+            InputStream inputStream = new FileInputStream(new File(propertiesFileName));
+            Scanner scanner = new Scanner(inputStream);
+            StringBuilder builder = new StringBuilder();
+            while (scanner.hasNext()) {
+                builder.append(scanner.nextLine());
+            }
+            return JSONHandler.deserialize(builder.toString(), Config.class);
+        } catch (Exception e) {
+            return new Config();
         }
     }
 

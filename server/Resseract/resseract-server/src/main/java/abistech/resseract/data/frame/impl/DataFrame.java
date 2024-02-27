@@ -157,18 +157,10 @@ public class DataFrame implements Data {
     @Override
     public void addColumn(Column<?> column) {
         switch (column.getDataType()) {
-            case DATE:
-                addDateColumn((DateColumn) column);
-                break;
-            case NUMERICAL:
-                addNumericColumn((DoubleColumn) column);
-                break;
-            case CATEGORICAL:
-                addCategoricalColumn((StringColumn) column);
-                break;
-            case BOOLEAN:
-                addBooleanColumn((BooleanColumn) column);
-                break;
+            case DATE -> addDateColumn((DateColumn) column);
+            case NUMERICAL -> addNumericColumn((DoubleColumn) column);
+            case CATEGORICAL -> addCategoricalColumn((StringColumn) column);
+            case BOOLEAN -> addBooleanColumn((BooleanColumn) column);
         }
     }
 
@@ -176,28 +168,28 @@ public class DataFrame implements Data {
     public void addCategoricalColumn(StringColumn column) {
         removeColumn(column.getName());
         this.categoricalColumns.add(column);
-        this.columnNameVsIndex.put(column.getName(), new ColumnIndex(this.categoricalColumns.size() - 1, DataType.CATEGORICAL));
+        this.columnNameVsIndex.put(column.getName(), new ColumnIndex(this.categoricalColumns.size() - 1, this.noOfCols() - 1, DataType.CATEGORICAL));
     }
 
     @Override
     public void addBooleanColumn(BooleanColumn column) {
         removeColumn(column.getName());
         this.booleanColumns.add(column);
-        this.columnNameVsIndex.put(column.getName(), new ColumnIndex(this.booleanColumns.size() - 1, DataType.BOOLEAN));
+        this.columnNameVsIndex.put(column.getName(), new ColumnIndex(this.booleanColumns.size() - 1, noOfCols() - 1, DataType.BOOLEAN));
     }
 
     @Override
     public void addDateColumn(DateColumn column) {
         removeColumn(column.getName());
         this.dateColumns.add(column);
-        this.columnNameVsIndex.put(column.getName(), new ColumnIndex(this.dateColumns.size() - 1, DataType.DATE));
+        this.columnNameVsIndex.put(column.getName(), new ColumnIndex(this.dateColumns.size() - 1, noOfCols() - 1, DataType.DATE));
     }
 
     @Override
     public void addNumericColumn(DoubleColumn column) {
         removeColumn(column.getName());
         this.numericColumns.add(column);
-        this.columnNameVsIndex.put(column.getName(), new ColumnIndex(this.numericColumns.size() - 1, DataType.NUMERICAL));
+        this.columnNameVsIndex.put(column.getName(), new ColumnIndex(this.numericColumns.size() - 1, noOfCols() - 1, DataType.NUMERICAL));
     }
 
     @Override
@@ -207,25 +199,17 @@ public class DataFrame implements Data {
             ColumnIndex index = entry.getValue();
             Object value = row.getValue(name);
             switch (index.getDataType()) {
-                case DATE:
-                    this.dateColumns.get(index.getIndex()).add((Date) value);
-                    break;
-                case NUMERICAL:
-                    this.numericColumns.get(index.getIndex()).add((Double) value);
-                    break;
-                case CATEGORICAL:
-                    this.categoricalColumns.get(index.getIndex()).add((String) value);
-                    break;
-                case BOOLEAN:
-                    this.booleanColumns.get(index.getIndex()).add(Util.parseBoolean(value));
-                    break;
+                case DATE -> this.dateColumns.get(index.getIndex()).add((Date) value);
+                case NUMERICAL -> this.numericColumns.get(index.getIndex()).add((Double) value);
+                case CATEGORICAL -> this.categoricalColumns.get(index.getIndex()).add((String) value);
+                case BOOLEAN -> this.booleanColumns.get(index.getIndex()).add(Util.parseBoolean(value));
             }
         }
     }
 
     @Override
     public Row getRow(int index) {
-        Row row = new DataFrameRow(dataProperty);
+        Row row = new DataFrameRow(dataProperty, columnNameVsIndex);
         for (String columnName : getColumnNames()) {
             Object value = getColumn(columnName).get(index);
             row.addValue(columnName, value);
@@ -268,24 +252,18 @@ public class DataFrame implements Data {
         if (columnIndex == this.columnNameVsIndex.get(getPrimaryColumnName()))
             dataProperty.setPrimaryColumnName(null);
         switch (columnIndex.getDataType()) {
-            case DATE:
-                dateColumns.remove(columnIndex.getIndex());
-                break;
-            case NUMERICAL:
-                numericColumns.remove(columnIndex.getIndex());
-                break;
-            case CATEGORICAL:
-                categoricalColumns.remove(columnIndex.getIndex());
-                break;
-            case BOOLEAN:
-                booleanColumns.remove(columnIndex.getIndex());
-                break;
+            case DATE -> dateColumns.remove(columnIndex.getIndex());
+            case NUMERICAL -> numericColumns.remove(columnIndex.getIndex());
+            case CATEGORICAL -> categoricalColumns.remove(columnIndex.getIndex());
+            case BOOLEAN -> booleanColumns.remove(columnIndex.getIndex());
         }
         this.columnNameVsIndex.remove(columnName);
         for (Entry<String, ColumnIndex> entry : this.columnNameVsIndex.entrySet()) {
             ColumnIndex currIndex = entry.getValue();
             if (currIndex.getIndex() > columnIndex.getIndex() && columnIndex.getDataType() == currIndex.getDataType())
                 currIndex.setIndex(currIndex.getIndex() - 1);
+            if (currIndex.getGlobalIndex() > columnIndex.getGlobalIndex())
+                currIndex.setGlobalIndex(currIndex.getGlobalIndex() - 1);
         }
     }
 
@@ -318,6 +296,16 @@ public class DataFrame implements Data {
     @Override
     public String getIndexName() {
         return dataProperty.getIndexColumnName();
+    }
+
+    @Override
+    public List<Object[]> head(int count) {
+        List<Object[]> head = new ArrayList<>();
+        for (int i = 0; i < count; i++) {
+            Row row = getRow(i);
+            head.add(row.toObjectArray());
+        }
+        return head;
     }
 
     @Override
@@ -368,6 +356,11 @@ public class DataFrame implements Data {
         columns.addAll(this.dateColumns);
         columns.addAll(this.categoricalColumns);
         columns.addAll(this.booleanColumns);
+        columns.sort((o1, o2) -> {
+            int i1 = columnNameVsIndex.get(o1.getName()).getGlobalIndex();
+            int i2 = columnNameVsIndex.get(o2.getName()).getGlobalIndex();
+            return Integer.compare(i1, i2);
+        });
         return columns;
     }
 
@@ -425,7 +418,7 @@ public class DataFrame implements Data {
         public Row next() {
             if (!hasNext())
                 throw new NoSuchElementException();
-            Row row = new DataFrameRow(dataProperty);
+            Row row = new DataFrameRow(dataProperty, columnNameVsIndex);
             for (String columnName : getColumnNames()) {
                 Object value = getColumn(columnName).get(curr);
                 row.addValue(columnName, value);

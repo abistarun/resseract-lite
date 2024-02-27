@@ -156,10 +156,7 @@ export class GeoMapWidgetComponent extends AbstractWidget {
         id: "series" + series.length,
         data: data,
         keys: ['name', 'value', 'z'],
-        joinBy: 'name',
-        dataLabels: {
-          format: '{point.name}'
-        }
+        joinBy: 'name'
       })
     });
     return series;

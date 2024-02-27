@@ -19,9 +19,9 @@ public class ObjectBasedDataFrameBuilder {
         this.dataTypes = dataTypes;
         this.columnIndexMap = columnIndexMap;
         data = new DataFrame(dataKey);
-        for (Map.Entry<String, DataType> entry : dataTypes.entrySet()) {
-            String columnName = entry.getKey().trim();
-            DataType dataType = entry.getValue();
+        for (int i = 0; i < columnIndexMap.size(); i++) {
+            String columnName = columnIndexMap.get(i).trim();
+            DataType dataType = dataTypes.get(columnName);
             switch (dataType) {
                 case DATE -> data.addDateColumn(new DateColumn(columnName));
                 case NUMERICAL -> data.addNumericColumn(new DoubleColumn(columnName));

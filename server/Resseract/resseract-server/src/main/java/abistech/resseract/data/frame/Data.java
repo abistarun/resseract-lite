@@ -80,6 +80,8 @@ public interface Data extends Iterable<Row> {
 
     Object getDefaultValueAtIndex(Object index);
 
+    List<Object[]> head(int count);
+
     void rearrange(List<Integer> indicies);
 
     String getPrimaryColumnName();
