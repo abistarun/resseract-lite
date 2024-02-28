@@ -7,6 +7,7 @@ import abistech.resseract.auth.Feature;
 import abistech.resseract.config.Config;
 import abistech.resseract.config.ConfigKey;
 import abistech.resseract.data.DataInfo;
+import abistech.resseract.data.summary.DataSummary;
 import abistech.resseract.exception.CustomErrorReports;
 import abistech.resseract.exception.ResseractException;
 import abistech.resseract.util.Constants;
@@ -136,6 +137,11 @@ class Controller {
     public ResponseEntity saveDashboard(@PathVariable String dashboardName, @RequestBody String data) {
         CoreServer.saveDashboard(dashboardName, data);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/datasummary/{dataKey}")
+    public DataSummary getDataSummary(@PathVariable String dataKey) throws ResseractException {
+        return CoreServer.getDataSummary(new DataKey(dataKey));
     }
 
     @ExceptionHandler(Exception.class)

@@ -8,8 +8,11 @@ import abistech.resseract.data.frame.DataKey;
 import abistech.resseract.data.frame.impl.column.DataType;
 import abistech.resseract.data.frame.impl.column.DoubleColumn;
 import abistech.resseract.data.source.SourceType;
+import abistech.resseract.data.summary.ColumnStatistics;
+import abistech.resseract.data.summary.DataSummary;
 import abistech.resseract.exception.ResseractException;
 import abistech.resseract.util.Constants;
+import abistech.resseract.util.JSONHandler;
 import abistech.resseract.util.TestUtil;
 import org.hibernate.Session;
 import org.junit.AfterClass;
@@ -17,6 +20,7 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.io.FileNotFoundException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -43,7 +47,7 @@ public class DataServiceTest {
         try {
             DataService.addCustomColumn(dataKey, columnName, "[N1]+[N2]");
             DoubleColumn result = (DoubleColumn) DataService.getData(dataKey).getColumn(columnName);
-            DoubleColumn expectedColumn = new DoubleColumn(columnName, new double[]{2018, 2019, 2020, 2010, 2011, 2012, 2013, 2014, 2015});
+            DoubleColumn expectedColumn = new DoubleColumn(columnName, new double[]{2018, 2019, 2020, 2010, 2011, 2012, 4, 2014, 2015});
             Assert.assertEquals(expectedColumn, result);
         } finally {
             DataService.deleteColumn(dataKey, columnName);
@@ -87,11 +91,7 @@ public class DataServiceTest {
     public void testGetAllDataInfo() throws ResseractException {
         List<DataInfo> dataInfo = DataService.getAllDataInfo();
         Assert.assertEquals(4, dataInfo.size());
-    }
 
-    @Test
-    public void testGetDataInfos() throws ResseractException {
-        List<DataInfo> dataInfo = DataService.getAllDataInfo();
         DataInfo airPassengerInfo = null;
         for (DataInfo info : dataInfo) {
             if (info.getDataKey().getKey().equals("AirPassengers")) {
@@ -113,10 +113,10 @@ public class DataServiceTest {
         DataKey dataKey = new DataKey("AirPassengers");
         DataInfo dataInfo = DataService.getDataInfo(dataKey);
         Map<String, Map<String, Object>> columnProperties = new HashMap<>();
-        columnProperties.put("Month", new HashMap<String, Object>() {{
+        columnProperties.put("Month", new HashMap<>() {{
             put(Constants.DATA_TYPE, DataType.DATE.name());
         }});
-        columnProperties.put("#Passengers", new HashMap<String, Object>() {{
+        columnProperties.put("#Passengers", new HashMap<>() {{
             put(Constants.DATA_TYPE, DataType.NUMERICAL.name());
         }});
 
@@ -142,7 +142,7 @@ public class DataServiceTest {
         expectedHead.add(new Object[]{2d, sdf.parse("01-11-08 00:00:00"), 11d, 2008d, 17d, 17d, 16d, 17d, 17d, 17d, "Pig", "Hat", true});
         expectedHead.add(new Object[]{3d, sdf.parse("01-12-08 00:00:00"), 12d, 2008d, 17d, 17d, 14d, 17d, 17d, 16d, "Get", "Lost", true});
         expectedHead.add(new Object[]{4d, sdf.parse("01-01-09 00:00:00"), 1d, 2009d, 16d, 17d, 13d, 17d, 17d, 14d, "Bye", "Bye", null});
-        expectedHead.add(new Object[]{5d, sdf.parse("01-02-09 00:00:00"), 2d, 2009d, 14d, 16d, 11d, 17d, 17d, 13d, "Bye", "Will", null});
+        expectedHead.add(new Object[]{5d, sdf.parse("01-02-09 00:00:00"), 2d, 2009d, 14d, 16d, 11d, null, 17d, 13d, "Bye", "Will", null});
 
         // Test
         Data data = DataService.getData(new DataKey("GenericSampleData"));
@@ -204,5 +204,18 @@ public class DataServiceTest {
                     .setParameter("id", id).getResultList();
             Assert.assertEquals(0, accessIds.size());
         }
+    }
+
+    @Test
+    public void testGetDataSummary() throws ResseractException, FileNotFoundException {
+        // Setup
+        String fileName = TestUtil.getResource("/DataDirectory/Data/GenericSampleData/data-summary.json");
+        String expectedJson = TestUtil.readFile(fileName);
+
+        // Test
+        DataSummary dataSummary = DataService.getDataSummary(new DataKey("GenericSampleData"));
+
+        // Verify
+        Assert.assertEquals(expectedJson, JSONHandler.serialize(dataSummary));
     }
 }

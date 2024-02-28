@@ -96,4 +96,11 @@ public class Util {
             throw new ResseractException(CustomErrorReports.PROPERTIES_FILE_NOT_FOUND, e);
         }
     }
+
+    public static double round(double value, int places) {
+        long factor = (long) Math.pow(10, places);
+        value = value * factor;
+        long tmp = Math.round(value);
+        return (double) tmp / factor;
+    }
 }

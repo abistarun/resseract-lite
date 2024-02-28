@@ -13,6 +13,7 @@ import abistech.resseract.data.DataService;
 import abistech.resseract.data.frame.DataKey;
 import abistech.resseract.data.migration.MigrationService;
 import abistech.resseract.data.source.SourceType;
+import abistech.resseract.data.summary.DataSummary;
 import abistech.resseract.exception.ResseractException;
 import abistech.resseract.pipeline.Pipeline;
 import abistech.resseract.pipeline.executor.PipelineExecutionEngine;
@@ -156,6 +157,10 @@ public class CoreServer {
 
     public static void deleteDashboard(String dashboardName) {
         DataService.deleteDashboard(dashboardName);
+    }
+
+    public static DataSummary getDataSummary(DataKey dataKey) throws ResseractException {
+        return DataService.getDataSummary(dataKey);
     }
 
     public static void shutdown() {

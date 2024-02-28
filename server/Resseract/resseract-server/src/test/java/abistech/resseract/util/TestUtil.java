@@ -60,16 +60,21 @@ public class TestUtil {
     private static Config getConfig(File file) {
         try {
             String propertiesFileName = file.getPath() + "/properties.json";
-            InputStream inputStream = new FileInputStream(new File(propertiesFileName));
-            Scanner scanner = new Scanner(inputStream);
-            StringBuilder builder = new StringBuilder();
-            while (scanner.hasNext()) {
-                builder.append(scanner.nextLine());
-            }
-            return JSONHandler.deserialize(builder.toString(), Config.class);
+            String input = readFile(propertiesFileName);
+            return JSONHandler.deserialize(input, Config.class);
         } catch (Exception e) {
             return new Config();
         }
+    }
+
+    public static String readFile(String fileName) throws FileNotFoundException {
+        InputStream inputStream = new FileInputStream(fileName);
+        Scanner scanner = new Scanner(inputStream);
+        StringBuilder builder = new StringBuilder();
+        while (scanner.hasNext()) {
+            builder.append(scanner.nextLine());
+        }
+        return builder.toString();
     }
 
     private static void clearDatabase() {

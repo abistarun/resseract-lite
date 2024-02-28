@@ -3,20 +3,22 @@ package abistech.resseract.data;
 import abistech.resseract.analysis.AnalysisElement;
 import abistech.resseract.analysis.AnalysisResult;
 import abistech.resseract.async.threadpool.ThreadPool;
+import abistech.resseract.auth.AuthenticationService;
 import abistech.resseract.config.Config;
 import abistech.resseract.config.ConfigKey;
 import abistech.resseract.data.dao.DAOFactory;
-import abistech.resseract.data.frame.Data;
-import abistech.resseract.exception.CustomErrorReports;
-import abistech.resseract.exception.ResseractException;
-import abistech.resseract.util.Constants;
-import abistech.resseract.auth.AuthenticationService;
 import abistech.resseract.data.frame.Column;
+import abistech.resseract.data.frame.Data;
 import abistech.resseract.data.frame.DataKey;
 import abistech.resseract.data.frame.impl.DataFrame;
 import abistech.resseract.data.source.Source;
 import abistech.resseract.data.source.SourceFactory;
 import abistech.resseract.data.source.SourceType;
+import abistech.resseract.data.summary.DataSummary;
+import abistech.resseract.data.summary.DataSummaryBuilder;
+import abistech.resseract.exception.CustomErrorReports;
+import abistech.resseract.exception.ResseractException;
+import abistech.resseract.util.Constants;
 import abistech.resseract.util.cache.ResseractCache;
 import abistech.resseract.util.expression.ExpressionEvaluator;
 import org.apache.logging.log4j.LogManager;
@@ -245,5 +247,11 @@ public class DataService {
 
     public static void shutDown() {
         DAOFactory.getDefaultDAO().close();
+    }
+
+    public static DataSummary getDataSummary(DataKey dataKey) throws ResseractException {
+        Data data = getData(dataKey);
+        return DataSummaryBuilder.buildSummary(data);
+
     }
 }

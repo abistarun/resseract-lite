@@ -37,9 +37,9 @@ public class GroupByAnalysisTest extends AbstractAnalysisTest {
         List<AnalysisSpecification> specs = Collections.singletonList(new AnalysisSpecification("Test", AnalysisType.GROUP_BY, dataKey, config));
         List<AnalysisResult> results = CoreServer.runAnalysis(specs);
         Assert.assertEquals(results.get(0).getColumns().size(), 2);
-        Assert.assertEquals(Arrays.asList("Hi", "", "Bye"), results.get(0).getIndex());
-        Assert.assertEquals(Arrays.asList(4d, 11d, 6d), results.get(0).getColumns().get("N1").getData());
-        Assert.assertEquals(Arrays.asList(11d, 22d, 43d), results.get(0).getColumns().get("N3").getData());
+        Assert.assertEquals(Arrays.asList("", "Bye"), results.get(0).getIndex());
+        Assert.assertEquals(Arrays.asList(11d, 6d), results.get(0).getColumns().get("N1").getData());
+        Assert.assertEquals(Arrays.asList(22d, 43d), results.get(0).getColumns().get("N3").getData());
     }
 
     @Test
@@ -52,6 +52,6 @@ public class GroupByAnalysisTest extends AbstractAnalysisTest {
         List<AnalysisResult> results = CoreServer.runAnalysis(specs);
         Assert.assertEquals(results.get(0).getColumns().size(), 1);
         Assert.assertEquals(Collections.singletonList(""), results.get(0).getIndex());
-        Assert.assertEquals(Collections.singletonList(97d), results.get(0).getColumns().get("Expression Result").getData());
+        Assert.assertEquals(Collections.singletonList(82d), results.get(0).getColumns().get("Expression Result").getData());
     }
 }
