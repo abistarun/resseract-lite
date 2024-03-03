@@ -1,0 +1,23 @@
+::ng-deep .mat-tab-body-wrapper {
+    height: 100% !important;
+}
+
+::ng-deep .mat-dialog-container {
+    height: 100% !important;
+}
+
+.mat-dialog-content {
+    max-height: 78vh !important;
+}
+
+.summary-footer {
+    display: flex;
+    font-size: 11px;
+    padding: 0px 30px 10px 30px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    border-width: 0;
+    border-bottom-width: 1px;
+    border-style: solid;
+    border-bottom-color: rgba(0,0,0,.12);
+}

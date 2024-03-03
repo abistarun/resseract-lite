@@ -9,7 +9,17 @@ public class HistogramUtil {
 
     public static Map<Double, Integer> createHistogramDouble(List<Double> input) {
         List<Double> data = input.stream().filter(Objects::nonNull).collect(Collectors.toList());
-
+        long uniqueCount = data.stream().distinct().count();
+        if (uniqueCount < NUMBER_OF_BINS * 2) {
+            Map<Double, Integer> valueCount = new HashMap<>();
+            for (Double d : data) {
+                if (!valueCount.containsKey(d)) {
+                    valueCount.put(d, 0);
+                }
+                valueCount.put(d, valueCount.get(d) + 1);
+            }
+            return valueCount;
+        }
         // Calculate number of bins dynamically using Freedman-Diaconis rule
         double min = Collections.min(data);
         double max = Collections.max(data);
@@ -36,7 +46,7 @@ public class HistogramUtil {
 
         // Initialize bins
         double startBin = min;
-        for (int i = 0; i < numBins + 1; i++) {
+        for (int i = 0; i < numBins + 2; i++) {
             histogram.put(Util.round(startBin, 2), 0);
             startBin += binWidth;
         }
@@ -53,7 +63,18 @@ public class HistogramUtil {
     public static Map<Date, Integer> createHistogramDate(List<Date> dates) {
         // Convert Date To Long
         List<Long> data = dates.stream().filter(Objects::nonNull).map(Date::getTime).collect(Collectors.toList());
-
+        long uniqueCount = data.stream().distinct().count();
+        if (uniqueCount < NUMBER_OF_BINS * 2) {
+            Map<Date, Integer> valueCount = new HashMap<>();
+            for (Long d : data) {
+                Date key = new Date(d);
+                if (!valueCount.containsKey(key)) {
+                    valueCount.put(key, 0);
+                }
+                valueCount.put(key, valueCount.get(key) + 1);
+            }
+            return valueCount;
+        }
         // Calculate number of bins dynamically using Freedman-Diaconis rule
         long min = Collections.min(data);
         long max = Collections.max(data);
@@ -81,7 +102,7 @@ public class HistogramUtil {
 
         // Initialize bins
         long startBin = min;
-        for (int i = 0; i < numBins + 1; i++) {
+        for (int i = 0; i < numBins + 2; i++) {
             histogram.put(new Date(startBin), 0);
             startBin += binWidth;
         }

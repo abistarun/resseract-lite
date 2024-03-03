@@ -1,1 +1,5 @@
-<div class="fillParent" #chartTarget></div>
+<div style="width: 100%; height: calc(100% - 20px); padding: 10px 0 0 0;">
+    <h3 *ngIf="title" style="width: 100%; text-align: center; margin-bottom: 0;">{{title}}</h3>
+    <h4 *ngIf="description" style="width: 100%; text-align: center;  margin: 0;">{{description}}</h4>
+    <div style="height: 100%; width: 100%;" #chartTarget></div>
+</div>

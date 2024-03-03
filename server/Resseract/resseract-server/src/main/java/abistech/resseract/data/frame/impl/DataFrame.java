@@ -302,6 +302,9 @@ public class DataFrame implements Data {
     public List<Object[]> head(int count) {
         List<Object[]> head = new ArrayList<>();
         for (int i = 0; i < count; i++) {
+            if (i >= noOfRows()) {
+                break;
+            }
             Row row = getRow(i);
             head.add(row.toObjectArray());
         }

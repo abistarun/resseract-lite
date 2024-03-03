@@ -1,0 +1,69 @@
+<h1 mat-dialog-title style="margin: 0;">Data Summary ({{dataKey.key}})</h1>
+
+<div mat-dialog-content style="height: 100%;">
+    <app-progress-indicator *ngIf="!isLoaded"></app-progress-indicator>
+    <mat-tab-group *ngIf="isLoaded" style="height: 100%;" [selectedIndex]="1">
+        <mat-tab style="height: 100%;" label="Data Summary">
+            <mat-grid-list style="height: 100%;" cols="2" rowHeight="fit">
+                <mat-grid-tile style="height: 100%;">
+                    <div style="width: 100%; height: 100%;">
+                        <app-data-table style="height: 100%;" description="Data Specification"
+                            [data]="dataSpecificationTableData" [headers]="dataSpecificationTableHeader">
+                        </app-data-table>
+                    </div>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                    <div style="width: 100%; height: 100%;">
+                        <app-data-table description="Data Configuration" [data]="dataConfigTableData"
+                            [headers]="dataConfigTableHeader">
+                        </app-data-table>
+                    </div>
+                </mat-grid-tile>
+                <mat-grid-tile [colspan]="2">
+                    <div style="width: 100%; height: 100%;">
+                        <app-data-table description="Sample Data" [data]="sampleData" [headers]="sampleDataHeader">
+                        </app-data-table>
+                    </div>
+                </mat-grid-tile>
+            </mat-grid-list>
+        </mat-tab>
+        <mat-tab label="Column Statistics">
+            <mat-grid-list cols="3" rowHeight="5:3">
+                <mat-grid-tile *ngFor="let columnStat of columnStatisticsData">
+                    <div
+                        style="width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: space-between;">
+                        <div style="height: calc(100% - 35px);">
+                            <div *ngIf="columnStat.type == 'DATE'" style="width: 100%; height: 100%;">
+                                <app-basic-chart style="height: 100%;" chartType="histogram"
+                                    [description]="columnStat.name" [xAxisData]="columnStat.data.xAxisData"
+                                    xAxisLabel="Value" [yAxisData]="columnStat.data.yAxisData" yAxisLabel="Count"
+                                    color="#87bc45"></app-basic-chart>
+                            </div>
+                            <div *ngIf="columnStat.type == 'NUMERICAL'" style="width: 100%; height: 100%;">
+                                <app-basic-chart style="height: 100%;" chartType="histogram"
+                                    [description]="columnStat.name" [xAxisData]="columnStat.data.xAxisData"
+                                    xAxisLabel="Value" [yAxisData]="columnStat.data.yAxisData" yAxisLabel="Count"
+                                    color="#ef9b20"></app-basic-chart>
+                            </div>
+                            <div *ngIf="columnStat.type == 'BOOLEAN'" style="width: 100%; height: 100%;">
+                                <app-basic-chart style="height: 100%;" chartType="pie" [description]="columnStat.name"
+                                    [xAxisData]="columnStat.data.xAxisData" xAxisLabel="Value"
+                                    [yAxisData]="columnStat.data.yAxisData" yAxisLabel="Count"></app-basic-chart>
+                            </div>
+                            <app-data-table *ngIf="columnStat.type == 'CATEGORICAL'" [description]="columnStat.name"
+                                [data]="columnStat.data" [headers]="columnStat.header">
+                            </app-data-table>
+                        </div>
+                        <div class="summary-footer">
+                            <div>Unique Value Count: {{columnStat.uniqueValueCount}}</div>
+                            <div>Null Value Count: {{columnStat.nullValueCount}}</div>
+                        </div>
+                    </div>
+                </mat-grid-tile>
+            </mat-grid-list>
+        </mat-tab>
+    </mat-tab-group>
+</div>
+<div mat-dialog-actions style="margin: 0; padding: 0;" align="end">
+    <button mat-button mat-dialog-close>Close</button>
+</div>

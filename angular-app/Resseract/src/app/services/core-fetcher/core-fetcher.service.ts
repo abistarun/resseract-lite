@@ -11,9 +11,10 @@ import { DataInfo } from '../../specs/data-info';
 import { DataKey } from '../../specs/data-key';
 import {
   accessibleFeaturesUrl, allSourceUrl, customColumnUrl, dashboardsUrl, dashboardUrl, dataInfoURL,
-  dataUrl, exportAnalysisUrl, fileUploadUrl, getDataConfigurationUrl, requiredAnalysisUrl, runAnalysisUrl, 
-  uploadDataProgressUrl, uploadDataUrl
+  dataSummaryUrl, dataUrl, exportAnalysisUrl, fileUploadUrl, getDataConfigurationUrl, requiredAnalysisUrl, 
+  runAnalysisUrl, uploadDataProgressUrl, uploadDataUrl
 } from './http.constants';
+import { DataSummary } from 'src/app/specs/data-summary';
 
 @Injectable()
 export class CoreFetcherService {
@@ -91,6 +92,11 @@ export class CoreFetcherService {
   deleteData(dataKey: DataKey) {
     let url = dataUrl + "/" + dataKey.key;
     return this.http.delete(url, this.getDefaultOptions());
+  }
+
+  getDataSummary(dataKey: DataKey) {
+    let url = dataSummaryUrl + "/" + dataKey.key;
+    return this.http.get<DataSummary>(url, this.getDefaultOptions());
   }
 
   deleteDashboard(name: string) {

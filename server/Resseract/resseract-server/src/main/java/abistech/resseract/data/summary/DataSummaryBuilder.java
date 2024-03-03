@@ -10,8 +10,14 @@ import abistech.resseract.util.HistogramUtil;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class DataSummaryBuilder {
+
+    private static final int MAX_VALUE_COUNT = 10;
+    private static final String OTHERS = "Others";
+    private static final int HEAD_COUNT = 10;
+
     public static DataSummary buildSummary(Data data) {
         List<Column<?>> allColumns = data.getAllColumns();
         List<ColumnStatistics<?>> columnStatisticsList = new ArrayList<>(allColumns.size());
@@ -35,7 +41,7 @@ public class DataSummaryBuilder {
                 }
             }
         }
-        return new DataSummary(data.noOfRows(), data.noOfCols(), data.head(5), columnStatisticsList);
+        return new DataSummary(data.noOfRows(), data.noOfCols(), data.head(HEAD_COUNT), columnStatisticsList);
     }
 
     private static ColumnStatistics<String> extractCategoricalColumnStatistics(StringColumn column) {
@@ -54,12 +60,16 @@ public class DataSummaryBuilder {
             }
             valueCount.put(d, valueCount.get(d) + 1);
         }
-        valueCount = valueCount.entrySet()
-                .stream()
+        Map<String, Integer> filteredValues = valueCount.entrySet().stream()
                 .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
-                .limit(30)
+                .limit(MAX_VALUE_COUNT)
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-        return new ColumnStatistics<>(column.getName(), column.getDataType(), uniqueValueCount, nullValueCount, valueCount);
+        Integer othersCount = valueCount.entrySet().stream()
+                .filter(x -> !filteredValues.containsKey(x.getKey())).map(Map.Entry::getValue).
+                reduce(0, Integer::sum);
+        if (othersCount > 0)
+            filteredValues.put(OTHERS, othersCount);
+        return new ColumnStatistics<>(column.getName(), column.getDataType(), uniqueValueCount, nullValueCount, filteredValues);
     }
 
     private static ColumnStatistics<Boolean> extractBooleanColumnStatistics(BooleanColumn column) {

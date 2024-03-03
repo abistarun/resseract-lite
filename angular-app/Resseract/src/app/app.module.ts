@@ -79,6 +79,7 @@ import { DatePipe } from '@angular/common';
 import { ExportAnalysisDialogComponent } from './export-analysis-dialog/export-analysis-dialog.component';
 import { AuthGuardService } from './services/authorisation-service/auth-guard.service';
 import { PieChartWidgetComponent } from './widgets/pie-chart-widget/pie-chart-widget.component';
+import { DataSummaryDialogComponent } from './data-summary-dialog/data-summary-dialog.component';
 
 export function getAppName() {
   return 'Resseract';
@@ -124,6 +125,7 @@ export function getAppName() {
     GeoMapWidgetComponent,
     StaticTextWidgetComponent,
     ExportAnalysisDialogComponent,
+    DataSummaryDialogComponent,
   ],
   imports: [
     HttpClientModule,

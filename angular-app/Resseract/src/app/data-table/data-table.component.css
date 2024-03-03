@@ -1,5 +1,21 @@
 .fillParent {
-    height: 100%;
+    height: calc(100% - 20px);
     width: 100%;
     display: block;
+    overflow: auto;
+}
+
+.mat-header-cell,
+.mat-footer-cell,
+.mat-cell {
+    min-width: 80px;
+    box-sizing: border-box;
+}
+
+mat-row {
+    min-height: 25px;
+}
+
+mat-header-row {
+    min-height: 35px;
 }

@@ -1,5 +1,5 @@
 export class Configration {
-    public properties;
+    public properties: {};
 
     constructor() {
         this.properties = {};

@@ -14,6 +14,7 @@ import { CoreEventEmitterService } from '../../services/core-event-emiter/core-e
 import { SliceService } from '../../services/slice-service/slice-service.service';
 import { AnalysisService } from '../../services/analysis-service/analysis-service.service';
 import { SliceOptionsDialogComponent } from '../../slice-options-dialog/slice-options-dialog.component';
+import { HumanizePipe } from 'src/app/pipes/humanize';
 
 @Component({
   selector: 'app-geo-map-widget',
@@ -151,7 +152,8 @@ export class GeoMapWidgetComponent extends AbstractWidget {
           chartElementId: "series" + series.length,
         }
       this.customOptions["series" + series.length + "ShowDataLabels"]["transform"] = (value: string) => value == 'true';
-      const data = result.columns[colName].data.map((ele, i) => [result.index[i], ele, ele]);
+      const columnData = result.columns[colName].data.map(x => Math.round(x * 100) / 100);
+      const data = columnData.map((ele, i) => [result.index[i], ele, ele]);
       series.push({
         id: "series" + series.length,
         data: data,

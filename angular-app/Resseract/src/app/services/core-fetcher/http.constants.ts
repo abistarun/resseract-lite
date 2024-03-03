@@ -11,6 +11,7 @@ export const getDataConfigurationUrl = baseUrl + "/generatedataconfiguration";
 export const fileUploadUrl = baseUrl + "/uploadfile";
 export const exportAnalysisUrl = baseUrl + "/exportanalysis";
 export const dataUrl = baseUrl + "/data";
+export const dataSummaryUrl = baseUrl + "/datasummary";
 export const analysisSpecificationParam = "analysisSpecifications";
 export const dataInfoURL = baseUrl + "/datainfo";
 export const customColumnUrl = baseUrl + "/customcolumn"

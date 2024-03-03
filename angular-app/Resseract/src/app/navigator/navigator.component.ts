@@ -10,6 +10,8 @@ import { WidgetSpecification } from '../specs/widget-specification';
 import { WidgetType } from '../specs/widget-type';
 import { GenericWidgetDialogComponent } from '../widgets/generic-widget-dialog/generic-widget-dialog.component';
 import { AnalysisService } from './../services/analysis-service/analysis-service.service';
+import { DataSummaryDialogComponent } from '../data-summary-dialog/data-summary-dialog.component';
+import { DataKey } from '../specs/data-key';
 @Component({
   selector: 'app-navigator',
   templateUrl: './navigator.component.html',
