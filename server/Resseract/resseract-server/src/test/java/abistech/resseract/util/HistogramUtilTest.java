@@ -12,17 +12,33 @@ public class HistogramUtilTest {
     @Test
     public void testHistogramRandomDouble() {
         // Setup
-        List<Double> data = Arrays.asList(4.9, 7.2, 2.8, 0.6, 3.5, 1.7, 8.4, 6.1, 9.0, 5.3, 1.2, 4.7, 8.2,
+        List<Double> data = Arrays.asList(0.0, 10.0, 4.9, 7.2, 2.8, 0.6, 3.5, 1.7, 8.4, 6.1, 9.0, 5.3, 1.2, 4.7, 8.2,
                 0.4, 2.3, 3.1, 6.7, 7.6, 9.3, 5.9, 8.0, 1.6, 2.5, 0.3, 4.2, 9.8, 6.6, 3.4, 7.9, 5.7, 4.3,
                 1.8, 9.2, 0.7, 2.6, 8.7, 3.7, 6.2, 5.1, 1.5, 7.4, 0.2, 9.5, 4.1, 6.8, 2.0, 3.8, 8.5, 5.6
         );
         Map<Double, Integer> expectedHistogram = new HashMap<>();
-        expectedHistogram.put(0.2, 14);
-        expectedHistogram.put(2.6, 11);
-        expectedHistogram.put(5.0, 12);
-        expectedHistogram.put(7.4, 11);
-        expectedHistogram.put(9.8, 1);
-        expectedHistogram.put(12.2, 0);
+        expectedHistogram.put(0.0, 4);
+        expectedHistogram.put(0.5, 2);
+        expectedHistogram.put(2.0, 2);
+        expectedHistogram.put(8.0, 3);
+        expectedHistogram.put(8.5, 2);
+        expectedHistogram.put(9.0, 3);
+        expectedHistogram.put(9.5, 2);
+        expectedHistogram.put(2.5, 3);
+        expectedHistogram.put(10.0, 1);
+        expectedHistogram.put(10.5, 0);
+        expectedHistogram.put(3.0, 2);
+        expectedHistogram.put(3.5, 3);
+        expectedHistogram.put(1.0, 1);
+        expectedHistogram.put(4.0, 3);
+        expectedHistogram.put(4.5, 2);
+        expectedHistogram.put(5.0, 2);
+        expectedHistogram.put(5.5, 3);
+        expectedHistogram.put(1.5, 4);
+        expectedHistogram.put(6.0, 2);
+        expectedHistogram.put(6.5, 3);
+        expectedHistogram.put(7.0, 2);
+        expectedHistogram.put(7.5, 2);
 
         // Test
         Map<Double, Integer> histogram = HistogramUtil.createHistogramDouble(data);

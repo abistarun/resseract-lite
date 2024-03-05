@@ -2,7 +2,7 @@
 
 <div mat-dialog-content style="height: 100%;">
     <app-progress-indicator *ngIf="!isLoaded"></app-progress-indicator>
-    <mat-tab-group *ngIf="isLoaded" style="height: 100%;" [selectedIndex]="1">
+    <mat-tab-group *ngIf="isLoaded" style="height: 100%;" [selectedIndex]="0" (selectedIndexChange)="loadData($event)">
         <mat-tab style="height: 100%;" label="Data Summary">
             <mat-grid-list style="height: 100%;" cols="2" rowHeight="fit">
                 <mat-grid-tile style="height: 100%;">
@@ -28,7 +28,7 @@
             </mat-grid-list>
         </mat-tab>
         <mat-tab label="Column Statistics">
-            <mat-grid-list cols="3" rowHeight="5:3">
+            <mat-grid-list cols="3" rowHeight="5:3" *ngIf="loadColumnStatistics">
                 <mat-grid-tile *ngFor="let columnStat of columnStatisticsData">
                     <div
                         style="width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: space-between;">

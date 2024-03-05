@@ -2,13 +2,16 @@
 
 <div mat-dialog-content>
   <app-progress-indicator *ngIf="!isLoaded"></app-progress-indicator>
-  <mat-grid-list  *ngIf="isLoaded" cols="4" rowHeight="120px">
+  <mat-grid-list *ngIf="isLoaded" cols="4" rowHeight="120px">
     <mat-grid-tile [rowspan]="3">
       <mat-nav-list class="fillParent">
         <div *ngFor="let analysisSpecification of analysisSpecifications">
           <mat-list-item (click)="onSelectAnalysis(analysisSpecification)">
             <h3 mat-line>{{analysisSpecification.dataKey.key}}</h3>
             <p mat-line>{{analysisSpecification.analysisType}}</p>
+            <button mat-icon-button color="primary" (click)="openDataSummary(analysisSpecification.dataKey)">
+              <mat-icon>info</mat-icon>
+            </button>
           </mat-list-item>
           <mat-divider></mat-divider>
         </div>

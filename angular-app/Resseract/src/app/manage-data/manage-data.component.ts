@@ -7,6 +7,7 @@ import { DataInfo } from '../specs/data-info';
 import { AddCustomColumnDialogComponent } from '../add-custom-column-dialog/add-custom-column-dialog.component';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { AnalysisService } from '../services/analysis-service/analysis-service.service';
+import { DataSummaryDialogComponent } from '../data-summary-dialog/data-summary-dialog.component';
 
 @Component({
   selector: 'app-manage-data',
@@ -18,7 +19,7 @@ export class ManageDataComponent implements OnInit {
   @ViewChild('paginator', { static: false }) paginator: MatPaginator;
 
   isLoaded = false;
-  displayedColumns: string[] = ['dataKey', 'sourceType', 'addColumn', 'delete'];
+  displayedColumns: string[] = ['dataKey', 'sourceType', 'addColumn', 'dataSummary', 'delete'];
   dataInfo: MatTableDataSource<DataInfo>;
   constructor(private dialogRef: MatDialogRef<ManageDataComponent>,
     private fetcherService: CoreFetcherService,
@@ -53,6 +54,18 @@ export class ManageDataComponent implements OnInit {
     });
   }
 
+  openDataSummary(element: any) {
+    this.dialog.open(DataSummaryDialogComponent, {
+      width: '90%',
+      height: '95%',
+      maxWidth: '90%',
+      maxHeight: '95%',
+      autoFocus: false,
+      data: {
+        dataKey: element.dataKey
+      }
+    });
+  }
 
   deleteData(element: any) {
     let dialogRef = this.dialog.open(ConfirmDialogComponent, {

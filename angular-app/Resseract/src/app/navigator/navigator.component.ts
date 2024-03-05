@@ -238,8 +238,23 @@ export class NavigatorComponent implements OnInit {
   }
 
   openUploadDataDialog() {
-    this.dialog.open(DataUploadDialogComponent, {
+    let dialogRef = this.dialog.open(DataUploadDialogComponent, {
       width: '1000px',
+    });
+
+    dialogRef.afterClosed().subscribe(retValue => {
+      if (retValue && retValue.showDataSummary && retValue.dataKey) {
+        this.dialog.open(DataSummaryDialogComponent, {
+          width: '90%',
+          height: '95%',
+          maxWidth: '90%',
+          maxHeight: '95%',
+          autoFocus: false,
+          data: {
+            dataKey: retValue.dataKey
+          }
+        });
+      }
     });
   }
 

@@ -68,6 +68,7 @@ https://github.com/abistarun/resseract-lite/assets/7782937/c384e7c1-dafb-4254-b6
   * [Supported Data Sources](https://github.com/abistarun/resseract-lite/wiki/Data-Upload#supported-data-sources)
     * [CSV (Comma Seperated Values) Files](https://github.com/abistarun/resseract-lite/wiki/Data-Upload#csv-comma-seperated-values-files)
   * [Adding Custom Columns](https://github.com/abistarun/resseract-lite/wiki/Data-Upload#adding-custom-columns)
+  * [Data Summary](https://github.com/abistarun/resseract-lite/wiki/Data-Upload#data-summary)
   * [Delete Data](https://github.com/abistarun/resseract-lite/wiki/Data-Upload#delete-data)
 * [Widgets](https://github.com/abistarun/resseract-lite/wiki/Widgets)
   * [Bar Chart](https://github.com/abistarun/resseract-lite/wiki/Bar-Chart)

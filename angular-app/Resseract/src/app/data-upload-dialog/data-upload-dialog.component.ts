@@ -16,9 +16,9 @@ import { AnalysisService } from '../services/analysis-service/analysis-service.s
 })
 export class DataUploadDialogComponent implements OnInit {
 
-  @ViewChild('sourceConfigPropertyEditor', {static: true}) sourceConfigPropertyEditor: ConfigrationPropertyEditorComponent;
-  @ViewChild('dataConfigPropertyEditor', {static: true}) dataConfigPropertyEditor: ConfigrationPropertyEditorComponent;
-  @ViewChild('dataUploadProgress', {static: false}) uploadProgressElemnent: ProgressIndicatorComponent;
+  @ViewChild('sourceConfigPropertyEditor', { static: true }) sourceConfigPropertyEditor: ConfigrationPropertyEditorComponent;
+  @ViewChild('dataConfigPropertyEditor', { static: true }) dataConfigPropertyEditor: ConfigrationPropertyEditorComponent;
+  @ViewChild('dataUploadProgress', { static: false }) uploadProgressElemnent: ProgressIndicatorComponent;
 
   sourcesData;
   sourceTypes: string[];
@@ -41,7 +41,8 @@ export class DataUploadDialogComponent implements OnInit {
       error: error => {
         close();
         throw error;
-      }});
+      }
+    });
   }
 
   close() {
@@ -73,6 +74,7 @@ export class DataUploadDialogComponent implements OnInit {
         if (progress == 100) {
           this.isLoaded = true;
           this.analysisService.updateDataInfos();
+          this.dialogRef.close({ showDataSummary: true, dataKey: dataKey });
         } else
           setTimeout(() => this.trackProgress(dataKey), 2000);
       },

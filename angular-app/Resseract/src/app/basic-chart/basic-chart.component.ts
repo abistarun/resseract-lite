@@ -31,7 +31,10 @@ export class BasicChartComponent implements OnInit {
     }
     let chartOptions: Highcharts.Options = {
       chart: {
-        type: chartType
+        type: chartType,
+        zooming: {
+          type: "x"
+        }
       },
       title: null,
       plotOptions: {
@@ -82,7 +85,7 @@ export class BasicChartComponent implements OnInit {
     }
     setTimeout(() => {
       this.chart = chart(this.chartTarget.nativeElement, chartOptions);
-    }, 2000);
+    }, 500);
   }
 
 }

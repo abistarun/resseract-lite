@@ -1,10 +1,12 @@
 import { Component, OnInit, Inject, ViewChild } from "@angular/core";
-import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from "@angular/material/dialog";
 import { AnalysisSpecification } from "../specs/analysis-specification";
 import { ConfigKey } from "../specs/config-key";
 import { CoreFetcherService } from "../services/core-fetcher/core-fetcher.service";
 import { ConfigrationPropertyEditorComponent } from "../configration-property-editor/configration-property-editor.component";
 import { AnalysisService } from "../services/analysis-service/analysis-service.service";
+import { DataSummaryDialogComponent } from "../data-summary-dialog/data-summary-dialog.component";
+import { DataKey } from "../specs/data-key";
 
 @Component({
   selector: 'app-configration-dialog',
@@ -22,6 +24,7 @@ export class ConfigrationDialogComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<ConfigrationDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
+    private dialog: MatDialog,
     fetcherService: CoreFetcherService,
     private analysisService: AnalysisService) {
     this.analysisSpecifications = data.analysisSpecifications;
@@ -40,6 +43,19 @@ export class ConfigrationDialogComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  openDataSummary(dataKey: DataKey) {
+    this.dialog.open(DataSummaryDialogComponent, {
+      width: '90%',
+      height: '95%',
+      maxWidth: '90%',
+      maxHeight: '95%',
+      autoFocus: false,
+      data: {
+        dataKey: dataKey
+      }
+    });
   }
 
   saveConfigs() {

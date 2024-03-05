@@ -23,6 +23,7 @@ export class DataSummaryDialogComponent implements OnInit {
   sampleData: any[][];
   sampleDataHeader: string[];
   columnStatisticsData: any[];
+  loadColumnStatistics: boolean = false;
   dataPipe = new DatePipe("en-US");
 
   constructor(@Inject(MAT_DIALOG_DATA) private data: any,
@@ -47,6 +48,12 @@ export class DataSummaryDialogComponent implements OnInit {
         throw error;
       }
     });
+  }
+
+  loadData(selectedTab: number) {
+    if (selectedTab == 1) {
+      this.loadColumnStatistics = true;
+    }
   }
 
   prepareDataSpecificationData(dataInfo: DataInfo, dataSummary: DataSummary) {
