@@ -94,9 +94,9 @@ export class DataSummaryDialogComponent implements OnInit {
           yAxisData: data.map(x => stat.valueCount[x[0]]),
         }
       } else if (stat.type == "DATE") {
-        data = Object.keys(stat.valueCount).map(x => [x, this.dataPipe.transform(x, dataInfo.config.properties[stat.name + " Format"])]).sort((a: any, b: any) => a[1] - b[1]);
+        data = Object.keys(stat.valueCount).map(x => [x, new Date(x)]).sort((a: any, b: any) => a[1] - b[1]);
         data = {
-          xAxisData: data.map(x => x[1]),
+          xAxisData: data.map(x => this.dataPipe.transform(x[1], dataInfo.config.properties[stat.name + " Format"])),
           yAxisData: data.map(x => stat.valueCount[x[0]]),
         }
       } else if (stat.type == "BOOLEAN") {
