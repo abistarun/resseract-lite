@@ -74,7 +74,9 @@ export class DataUploadDialogComponent implements OnInit {
         if (progress == 100) {
           this.isLoaded = true;
           this.analysisService.updateDataInfos();
-          this.dialogRef.close({ showDataSummary: true, dataKey: dataKey });
+          setTimeout(() => {
+            this.dialogRef.close({ showDataSummary: true, dataKey: dataKey });
+          }, 500);
         } else
           setTimeout(() => this.trackProgress(dataKey), 2000);
       },

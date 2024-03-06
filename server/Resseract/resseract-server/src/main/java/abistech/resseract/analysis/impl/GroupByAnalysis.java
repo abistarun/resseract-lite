@@ -5,10 +5,7 @@ import abistech.resseract.analysis.AnalysisType;
 import abistech.resseract.pipeline.Pipeline;
 import abistech.resseract.auth.Feature;
 import abistech.resseract.step.impl.data.DataLoader;
-import abistech.resseract.step.impl.processing.EvaluateExpression;
-import abistech.resseract.step.impl.processing.GroupBy;
-import abistech.resseract.step.impl.processing.Slice;
-import abistech.resseract.step.impl.processing.Sort;
+import abistech.resseract.step.impl.processing.*;
 
 public class GroupByAnalysis extends AbstractAnalysis {
     @Override
@@ -24,6 +21,7 @@ public class GroupByAnalysis extends AbstractAnalysis {
         pipeline.addStep(new GroupBy());
         pipeline.addStep(new EvaluateExpression());
         pipeline.addStep(new Sort());
+        pipeline.addStep(new TopN());
         return pipeline;
     }
 

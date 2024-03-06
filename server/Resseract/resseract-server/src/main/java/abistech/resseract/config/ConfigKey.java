@@ -37,6 +37,7 @@ public class ConfigKey {
     public static final ConfigKey HOST = new ConfigKey("Host", "HOST", "localhost", ConfigValueType.STRING, null, true);
     public static final ConfigKey QUERY = new ConfigKey("Query", "QUERY", "select * from <TABLE_NAME>", ConfigValueType.STRING, null, true);
     public static final ConfigKey COLUMN_DATA_TYPES = new ConfigKey("Column Data Types", "COLUMN_DATA_TYPES", null, ConfigValueType.HIDDEN, null, true);
+    public static final ConfigKey TOP_N = new ConfigKey("Top N", "TOP_N", -1d, ConfigValueType.DOUBLE, null, true);
 
     private String name;
     private String key;
