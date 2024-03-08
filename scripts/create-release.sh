@@ -1,6 +1,6 @@
 set -e
 
-VERSION="1.0.0"
+VERSION="1.0.1"
 declare -a supportedPlatforms=(
     "linux-aarch64" 
     "linux-x64" 
