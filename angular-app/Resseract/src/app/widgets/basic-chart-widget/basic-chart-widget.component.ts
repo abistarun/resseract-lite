@@ -14,6 +14,7 @@ import { CoreEventEmitterService } from '../../services/core-event-emiter/core-e
 import { SliceService } from '../../services/slice-service/slice-service.service';
 import { AnalysisService } from '../../services/analysis-service/analysis-service.service';
 import { SliceOptionsDialogComponent } from '../../slice-options-dialog/slice-options-dialog.component';
+import { HumanizePipe } from 'src/app/pipes/humanize';
 
 @Component({
   selector: 'app-basic-chart-widget',
@@ -27,6 +28,7 @@ export class BasicChartWidgetComponent extends AbstractWidget {
   private chartType: string;
   chart: Highcharts.Chart;
   targets: string[] = [];
+  humanizePipe: HumanizePipe = new HumanizePipe();
 
   private chartMapping = {
     bar: "column",
@@ -138,12 +140,20 @@ export class BasicChartWidgetComponent extends AbstractWidget {
           lineWidth: 3,
           marker: {
             enabled: false
+          },
+          dataLabels: {
+            enabled: true,
+            format: '{point.y:,.2f}'
           }
         },
         spline: {
           lineWidth: 3,
           marker: {
             enabled: false
+          },
+          dataLabels: {
+            enabled: true,
+            format: '{point.y:,.2f}'
           }
         },
         column: {

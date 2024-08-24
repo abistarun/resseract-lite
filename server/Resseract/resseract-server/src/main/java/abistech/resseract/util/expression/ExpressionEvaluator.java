@@ -3,10 +3,7 @@ package abistech.resseract.util.expression;
 import abistech.resseract.data.frame.Column;
 import abistech.resseract.data.frame.Data;
 import abistech.resseract.data.frame.Row;
-import abistech.resseract.data.frame.impl.column.BooleanColumn;
-import abistech.resseract.data.frame.impl.column.DataType;
-import abistech.resseract.data.frame.impl.column.DoubleColumn;
-import abistech.resseract.data.frame.impl.column.StringColumn;
+import abistech.resseract.data.frame.impl.column.*;
 import abistech.resseract.exception.CustomErrorReports;
 import abistech.resseract.exception.ResseractException;
 import abistech.resseract.util.Constants;
@@ -218,6 +215,7 @@ public class ExpressionEvaluator {
     private void fillColumn(DataType returnDataType, Column<?> result, Object res) {
         switch (returnDataType) {
             case BOOLEAN -> ((BooleanColumn) result).add((Boolean) res);
+            case DATE -> ((DateColumn) result).add((Date) res);
             case NUMERICAL -> ((DoubleColumn) result).add((Double) res);
             case CATEGORICAL -> ((StringColumn) result).add((String) res);
         }
@@ -228,7 +226,7 @@ public class ExpressionEvaluator {
             case BOOLEAN -> new BooleanColumn(columnName, data.noOfRows());
             case NUMERICAL -> new DoubleColumn(columnName, data.noOfRows());
             case CATEGORICAL -> new StringColumn(columnName, data.noOfRows());
-            case DATE -> throw new ResseractException(CustomErrorReports.EXPR_DATA_TYPE_NOT_SUPPORTED);
+            case DATE -> new DateColumn(columnName, data.noOfRows());
         };
         result.addProperty(Constants.EXPRESSION, expression);
         return result;

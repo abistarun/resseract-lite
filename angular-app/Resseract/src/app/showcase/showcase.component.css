@@ -1,0 +1,27 @@
+#dashboard {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 3.5vw;
+    right: 0;
+}
+
+#showcaseLabel {
+    height: 100%;
+    width: 3.5vw;
+    top: 0 !important;
+    bottom: 0 !important;
+    position: fixed !important;
+    z-index: 10;
+    overflow: hidden;
+    font-size: 3rem;
+    color: #ffffff;
+    margin: 0.15em 0.75em 0 0;
+    font-family: 'Open Sans', sans-serif; 
+    -webkit-writing-mode: vertical-lr;
+    -ms-writing-mode: tb-lr;
+    writing-mode: vertical-lr;
+    text-orientation: upright;    
+    letter-spacing: 40px;
+    text-align: center;
+}

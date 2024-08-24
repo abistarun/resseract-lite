@@ -28,7 +28,9 @@ export class AppComponent {
     this.emitterService.listenMessageEvent((message) => this.showMessage(message));
     var parser = document.createElement('a');
     parser.href = window.location.href;
-    this.router.navigate(["/canvas"]);
+    if (parser.pathname !== '/showcase') {
+      this.router.navigate(["/canvas"]);
+    }
   }
 
   showMessage(message) {

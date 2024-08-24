@@ -80,6 +80,7 @@ import { ExportAnalysisDialogComponent } from './export-analysis-dialog/export-a
 import { AuthGuardService } from './services/authorisation-service/auth-guard.service';
 import { PieChartWidgetComponent } from './widgets/pie-chart-widget/pie-chart-widget.component';
 import { DataSummaryDialogComponent } from './data-summary-dialog/data-summary-dialog.component';
+import { ShowcaseComponent } from './showcase/showcase.component';
 
 export function getAppName() {
   return 'Resseract';
@@ -126,6 +127,7 @@ export function getAppName() {
     StaticTextWidgetComponent,
     ExportAnalysisDialogComponent,
     DataSummaryDialogComponent,
+    ShowcaseComponent
   ],
   imports: [
     HttpClientModule,
